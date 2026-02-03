@@ -3,13 +3,14 @@
 <!-- If you used Canva to make your icon and don't want to pay for a background remover, you can use the website https://www.remove.bg/ to do so -->
 <p align="center">
   <img alt="Template Logo" src="media/logos/Transparent Version.png" width="" height="350" />
-  <h1 align="center">Pi&ai</h1>
+  <h1 align="center">Pi&AI</h1>
   <p align="center">A project for ... by team ... </p>
 </p>
 <!-- the emojis are not set in stone! If you'd like you can remove them entirely or select your own from https://gist.github.com/rxaviers/7360908 you are welcome to -->
 
 ## :loudspeaker: About
 The objective of the workshop is  ...
+Demostrate basic harware and electronic to introduce IT
 <!-- You can look at other TAP projects if you need a better idea of how to describe your workshops objectives -->
 
 This workshop has participants do ...
@@ -29,9 +30,9 @@ You can select from a range of audiences or a single auidience. Examples:
     K-12
   You will be presenting most often to your peers who are taking introductory technology classes, so more often than not you should be including college in your target audience range. 
 -->
-* <b>Difficulty Level:</b> Choose your workshop difficulty (Beginner/Intermediate/Advanced)
+* <b>Difficulty Level:</b> Beginner
 * <b>Target Audience:</b> K12 - College (edit .md file to view all options presented in the markdown comments)
-* <b>Duration of Workshop:</b> How long your workshop takes (1 hour, 30 minutes, etc.) 
+* <b>Duration of Workshop:</b> 25 min 
 * <b>Needed Materials:</b> Materials needed to do your workshop (computer with keyboard, sphero, etc.)
 * <b>Learning Outcomes:</b> The primary goal of this project is to teach participants ...
 * <b>Your Main Technology</b> Name of Technology and then a brief descriptor. You will go more in depth on the technology used in a different section. 
@@ -42,7 +43,7 @@ You can select from a range of audiences or a single auidience. Examples:
 
 <!-- videos can also be dragged and dropped into markdown files if you want them embedded -->
 
-## :pencil2: Team: Team Name
+## :pencil2: Team: Pi&AI
 
 <!-- Use the team photo of your choice once youve uploaded it to the team photo folder within the media folder -->
 <img alt="art featuring batman, wonder woman, and superman" src = "media/team photos/Team Photo.JPG" width="" height="300">
@@ -50,15 +51,14 @@ You can select from a range of audiences or a single auidience. Examples:
 > (From left to right: Batman,  Wonder Woman, Superman.)
 <!-- replace with full names of your team members -->
 
-* Team Member 1
-* Team Member 2
-* Team Member 3
-* Team Member 4
+* Keyvaun Herring
+* Kyla Thorpe
+* Lorena Salazar
 
 ## :mortar_board: Advisors
 <!-- name of the two professors overseeing your TAP class -->
-* Dr. John Doe
-* Dr. Jane Doe
+* Dr. Wei Jin
+* Dr. Xin Xu
 
 
 ## :page_with_curl: Project Description
