@@ -31,7 +31,7 @@ You can select from a range of audiences or a single auidience. Examples:
 -->
 * <b>Difficulty Level:</b> Beginner
 * <b>Target Audience:</b> K12 - College (edit .md file to view all options presented in the markdown comments)
-* <b>Duration of Workshop:</b> How long your workshop takes (1 hour, 30 minutes, etc.) 
+* <b>Duration of Workshop:</b> 25 min 
 * <b>Needed Materials:</b> Materials needed to do your workshop (computer with keyboard, sphero, etc.)
 * <b>Learning Outcomes:</b> The primary goal of this project is to teach participants ...
 * <b>Your Main Technology</b> Name of Technology and then a brief descriptor. You will go more in depth on the technology used in a different section. 
