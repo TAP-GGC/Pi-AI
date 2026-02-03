@@ -50,15 +50,14 @@ You can select from a range of audiences or a single auidience. Examples:
 > (From left to right: Batman,  Wonder Woman, Superman.)
 <!-- replace with full names of your team members -->
 
-* Team Member 1
-* Team Member 2
-* Team Member 3
-* Team Member 4
+* Keyvaun Herring
+* Kyla Thorpe
+* Lorena Salazar
 
 ## :mortar_board: Advisors
 <!-- name of the two professors overseeing your TAP class -->
-* Dr. John Doe
-* Dr. Jane Doe
+* Dr. Wei Jin
+* Dr. Xin Xu
 
 
 ## :page_with_curl: Project Description
