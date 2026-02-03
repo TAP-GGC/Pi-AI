@@ -29,7 +29,7 @@ You can select from a range of audiences or a single auidience. Examples:
     K-12
   You will be presenting most often to your peers who are taking introductory technology classes, so more often than not you should be including college in your target audience range. 
 -->
-* <b>Difficulty Level:</b> Choose your workshop difficulty (Beginner/Intermediate/Advanced)
+* <b>Difficulty Level:</b> Beginner
 * <b>Target Audience:</b> K12 - College (edit .md file to view all options presented in the markdown comments)
 * <b>Duration of Workshop:</b> How long your workshop takes (1 hour, 30 minutes, etc.) 
 * <b>Needed Materials:</b> Materials needed to do your workshop (computer with keyboard, sphero, etc.)
