@@ -10,6 +10,7 @@
 
 ## :loudspeaker: About
 The objective of the workshop is  ...
+Demostrate basic harware and electronic to introduce IT
 <!-- You can look at other TAP projects if you need a better idea of how to describe your workshops objectives -->
 
 This workshop has participants do ...
