@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pi&AI</title>
+<link href = "images/Pi-Transparent.png" rel="icon" type="image/x-icon">
+<style>
+/* ===== GLOBAL STYLE ===== */
+body {
+    margin: 0;
+    font-family: "Courier New", monospace;
+    background-color: #efccf6; /* classic Windows teal */
+    color: black;
+}
+
+/* ===== TITLE BAR ===== */
+.title-bar {
+    background: linear-gradient(to right, rgb(122, 0, 128), rgb(234, 0, 255));
+    color: white;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.window-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.window-buttons button {
+    width: 20px;
+    height: 20px;
+    border: 2px solid white;
+    background: silver;
+    cursor: pointer;
+}
+
+/* ===== MAIN WINDOW ===== */
+.window {
+    width: 80%;
+    max-width: 700px;
+    margin: 80px auto;
+    border: 3px solid black;
+    background: #c0c0c0;
+    box-shadow: 6px 6px 0px black;
+}
+
+.window-content {
+    padding: 20px;
+}
+
+/* ===== RETRO BUTTONS ===== */
+.retro-button {
+    background: #c0c0c0;
+    border: 2px solid black;
+    padding: 8px 15px;
+    font-family: inherit;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.retro-button:active {
+    border-style: inset;
+}
+
+/* ===== TERMINAL BOX ===== */
+.terminal {
+    background: black;
+    color: #ff00e1;
+    padding: 15px;
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+/* ===== TASKBAR ===== */
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: silver;
+    border-top: 3px solid black;
+    padding: 5px;
+}
+
+.start-button {
+    background: #c0c0c0;
+    border: 2px solid black;
+    padding: 5px 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MAIN WINDOW -->
+<div class="window">
+    <div class="title-bar">
+        <span>Pi&AI</span>
+        <div class="window-buttons">
+            <button>-</button>
+            <button></button>
+            <button>x</button>
+        </div>
+    </div>
+
+    <div class="window-content">
+        <h2>Welcome User</h2>
+        <p>This is your personal assistent interface from Pi&AI.</p>
+
+        <button class="retro-button" onclick="window.location.href='testimer.html'">Click Me</button>
+
+        <div class="terminal">
+            C:\Users\Guest> Welcome to Pi&AI...<br>
+            C:\> System Ready.
+        </div>
+    </div>
+</div>
+
+<!-- TASKBAR -->
+<div class="taskbar">
+    <button class="start-button">Start</button>
+</div>
+
+</body>
+</html>
