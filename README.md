@@ -4,13 +4,12 @@
 <p align="center">
   <img alt="Template Logo" src="media/logos/Pi-Transparent.png" width="" height="250" />
   <h1 align="center">Pi&AI</h1>
-  <p align="center">A project ... by team Pi # </p>
+  <p align="center">A project for students to enrich their study experience in mathematics by team Pi # </p>
 </p>
 <!-- the emojis are not set in stone! If you'd like you can remove them entirely or select your own from https://gist.github.com/rxaviers/7360908 you are welcome to -->
 
 ## :loudspeaker: About
-The objective of the workshop is  ...
-Demostrate basic harware and electronic to introduce IT
+The objective of the workshop is to get students motivated to create their own generative ai models by demonstrating how we created a SLM study assistant.
 <!-- You can look at other TAP projects if you need a better idea of how to describe your workshops objectives -->
 
 This workshop has participants do ...
@@ -30,11 +29,11 @@ You can select from a range of audiences or a single auidience. Examples:
     K-12
   You will be presenting most often to your peers who are taking introductory technology classes, so more often than not you should be including college in your target audience range. 
 -->
-* <b>Difficulty Level:</b> Beginner
-* <b>Target Audience:</b> K12 - College (edit .md file to view all options presented in the markdown comments)
-* <b>Duration of Workshop:</b> 25 min 
+* <b>Difficulty Level:</b> Beginner/Intermediate 
+* <b>Target Audience:</b> Middle School - College
+* <b>Duration of Workshop:</b> 20 - 25 min 
 * <b>Needed Materials:</b> Materials needed to do your workshop (computer with keyboard, sphero, etc.)
-* <b>Learning Outcomes:</b> The primary goal of this project is to teach participants ...
+* <b>Learning Outcomes:</b> The primary goal of this project is to teach participants how genertive chat bots are created and how to train data.
 * <b>Your Main Technology</b> Name of Technology and then a brief descriptor. You will go more in depth on the technology used in a different section. 
 * [Technology Ambassador Program](https://tapggc.org/) <b>(TAP)</b> is a project-based class that provides a collaborative environment for students to work with their fellow classmates on a semester-long project using technologies of their choice. TAP strives to increase participation in IT through numerous outreach activities and workshops that are designed to showcase the creative and fun side of technology.
 <!-- Commercial Video stored in the Media folder will be linked here -->
@@ -66,7 +65,7 @@ A more thorough description of your project. Not a full walkthrough, but describ
 
 ## :memo: Publications
 <!-- team members, then professors/advisors. "Name of Publication", event, month and day, year, Georgia Gwinnett College. -->
-1. Team Member, Team Member, Team Member, John Doe, Jane Doe. "A Real Fake Workshop", Fake Event, April 1, 2024, Georgia Gwinnett College.  
+1. Keyvaun Hering, Lorena Salazar, Kyla Thorpe, Wei Jin, Xin Xu. "A Real Fake Workshop", Fake Event, April 1, 2024, Georgia Gwinnett College.  
 
 ## :open_hands: Outreach
 <i>List the outreach events your team has participated in. </i>
@@ -82,15 +81,18 @@ Example:
 If you're interested in more workshops that utilize Scratch, check out [Space Mechanic](https://github.com/TAP-GGC/NinjaTurtles)!
 
 ## :computer: Technology
-<i> Replace Scratch with whatever technology you're using and make sure to have a logo of that technology uploaded to the technology folder within the media folder. </i>
-<!-- be sure to use the alt text feature in case anybody viewing your repo is using  screen reader! you want your workshop to be as accessible as possible -->
+
+<!-- be sure to use the alt text feature in case anybody viewing your repo is using  screen reader! you want your workshop to be as accessible as possible 
+Python, Scikit-Learn-->
 <p align="center">
   <img alt="Scratch Logo" src = "media/technology/scratch logo.png" width="200" height="200"/>
 </p>
 
-* [Scratch](https://scratch.mit.edu/) is a block-based programming language developed by the MIT Media Lab as an education tool for children to learn computing in a fun and interactive way.
+* [Python]([https://scratch.mit.edu/](https://www.python.org/)) is a block-based programming language developed by the MIT Media Lab as an education tool for children to learn computing in a fun and interactive way.
 * Scratch has drag-and-drop interfaces. Unlike text-based programming language like Java or C where you physically type every line of code, in Scratch, you can drag and drop pre-made codes and organize them into an algorithm. It's like solving a jigsaw puzzle!
 * Explain why your team chose this technology for this workshop.
+* [Scikit-Learn]([https://scratch.mit.edu/](https://scikit-learn.org/stable/)) is a block-based programming language developed by the MIT Media Lab as an education tool for children to learn computing in a fun and interactive way.
+* Scratch has drag-and-drop interfaces. Unlike text-based programming language like Java or C where you physically type every line of code, in Scratch, you can drag and drop pre-made codes and organize them into an algorithm. It's like solving a jigsaw puzzle!
 
 <p align="center">
 <img src = "media/technology/block-based language.png" width ="400" height="200">
@@ -112,15 +114,6 @@ Your repo doesn't have to have every section used below. This is just an example
 
 ### Getting to the game 
 [Click here to view instructions](/documents/tutorial%20materials/Getting%20to%20the%20Game.md)
-
-## Usage
-<i> Describe HOW to use your game. </i> 
-Example: 
-1. Press the Left arrow key to move to the left.
-2. Press the Right arrow key to move to the right.
-3. Press the Up arrow key to move up.
-4. Press the Down arrow key to move down.
-5. You may also replace the arrow keys with a Makey Makey. 
 
 ## Short Demo Instructions 
 [Demo Video on how to install and play our game](https://youtu.be/mA80Aa55t-U)
