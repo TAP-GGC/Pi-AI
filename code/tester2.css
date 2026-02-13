@@ -23,7 +23,7 @@ body {
     overflow: hidden;
 }
 
-/* Title Bar */
+/* Title Bar Timer */
 .title-bar {
     background: linear-gradient(to right, rgb(122, 0, 128), rgb(234, 0, 255));
     color: white;
@@ -150,6 +150,8 @@ body {
     font-size: 1.5em;
 
 }
+
+/* Timer */
 .timer{
     font-size: 4em;
     font-weight: 700;
@@ -163,7 +165,9 @@ hr{
 }
 
 .pi{
-    width: 30px;
+    display: block;
+    margin: 0 auto;
+    width: 25%;
 }
 
 .button-wrapper{
@@ -262,7 +266,7 @@ nav li:first-child{
 }
   */
 .sidebar{
-    position: fixed;
+    position: -webkit-sticky;
     height: 35vh;
     width: 250px;
 
