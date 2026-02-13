@@ -1,0 +1,920 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning Conversation UI</title>
+    <style>
+        :root {
+            --primary: #a1dbf5;
+            --secondary: #ffcad4;
+            --tertiary: #c8e7ff;
+            --quaternary: #d4f0c6;
+            --correct: #9aecb3;
+            --hint: #ffe599;
+            --text: #4a5568;
+            --bubble-radius: 22px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Neue', 'Quicksand', 'Arial Rounded MT Bold', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9ff;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 650px;
+            height: 570px;
+            background-color: white;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary), var(--tertiary));
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 25px 25px 0 0;
+            z-index: 10;
+        }
+
+        .chat-header h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #4a5568;
+        }
+
+        .progress-container {
+            height: 5px;
+            width: 100px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 30%;
+            background-color: white;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 16px 20px;
+            border-radius: var(--bubble-radius);
+            line-height: 1.5;
+            position: relative;
+            font-size: 0.95rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .message.tutor {
+            align-self: flex-start;
+            background-color: var(--primary);
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.tutor::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -10px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary);
+            border-bottom-right-radius: 20px;
+            z-index: -1;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: var(--secondary);
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message.user::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: -10px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--secondary);
+            border-bottom-left-radius: 20px;
+            z-index: -1;
+        }
+
+        .option-message {
+            background-color: var(--tertiary);
+            padding: 15px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 90%;
+            align-self: flex-start;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .option-button {
+            background-color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            transition: 0.6s;
+        }
+
+        .option-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .option-button:hover::before {
+            transform: translateX(100%);
+        }
+
+        .option-button.correct {
+            background-color: var(--correct);
+            transform: scale(1.05);
+        }
+
+        .option-button.incorrect {
+            background-color: #ffcccb;
+            opacity: 0.7;
+        }
+
+        .message.hint {
+            background-color: var(--hint);
+            align-self: center;
+            font-style: italic;
+            max-width: 90%;
+            font-size: 0.9rem;
+            transform: rotate(-1deg);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .emoji {
+            display: inline-block;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+            margin: 0 2px;
+        }
+
+        .emoji:hover {
+            transform: scale(1.5);
+            display: inline-block;
+        }
+
+        .chat-input {
+            padding: 15px 20px;
+            background-color: #f5f7fa;
+            display: flex;
+            align-items: center;
+            border-top: 1px solid #edf2f7;
+            z-index: 10;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .message-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .send-button {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: none;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .send-button:hover {
+            transform: scale(1.05);
+            background-color: #8fd1f3;
+        }
+
+        .send-button svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .continue-button {
+            background-color: var(--quaternary);
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            align-self: center;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .continue-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feedback-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 5rem;
+            z-index: 100;
+            user-select: none;
+            pointer-events: none;
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
+        }
+
+        .feedback-animation.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            background-color: var(--primary);
+            align-self: flex-start;
+            margin-top: 5px;
+            opacity: 0;
+        }
+
+        .typing-indicator.show {
+            opacity: 1;
+            animation: fadeIn 0.3s forwards;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            animation: typingAnimation 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.7;
+            }
+        }
+
+        .sparkle {
+            animation: sparkle 1s ease-in-out;
+        }
+
+        .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #d1f0ea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #45818e;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .floating-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(161, 219, 245, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 600px) {
+            .chat-container {
+                height: 510px;
+                width: 100%;
+            }
+
+            .message {
+                max-width: 85%;
+                font-size: 0.9rem;
+                padding: 12px 16px;
+            }
+
+            .chat-header h1 {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Custom scrollbar */
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #d3d3d3;
+            border-radius: 10px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #c1c1c1;
+        }
+
+        /* Checkmark animation */
+        .checkmark {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            display: inline-block;
+            transform: rotate(45deg);
+            margin-left: 5px;
+        }
+
+        .checkmark-stem {
+            position: absolute;
+            width: 3px;
+            height: 10px;
+            background-color: #4CAF50;
+            left: 10px;
+            top: 5px;
+        }
+
+        .checkmark-kick {
+            position: absolute;
+            width: 7px;
+            height: 3px;
+            background-color: #4CAF50;
+            left: 4px;
+            top: 12px;
+        }
+
+        @keyframes grow-checkmark {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .grow-checkmark {
+            animation: grow-checkmark 0.5s ease-in-out;
+        }
+
+        .message.interactive {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .message.interactive:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="user-info">
+                <div class="avatar">T</div>
+                <h1>Photosynthesis Tutorial</h1>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be added here by JavaScript -->
+        </div>
+        <div class="chat-input">
+            <input type="text" class="message-input" id="messageInput" placeholder="Type your message here..." aria-label="Message input">
+            <button class="send-button" id="sendButton" aria-label="Send message">
+                <svg viewBox="0 0 24 24">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="floating-particles" id="particles"></div>
+    </div>
+    <div class="feedback-animation" id="feedbackAnimation"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const chatMessages = document.getElementById('chatMessages');
+            const messageInput = document.getElementById('messageInput');
+            const sendButton = document.getElementById('sendButton');
+            const progressBar = document.getElementById('progressBar');
+            const feedbackAnimation = document.getElementById('feedbackAnimation');
+            const particlesContainer = document.getElementById('particles');
+            
+            // Animation delay times
+            const TYPING_DELAY = 1000;
+            const MESSAGE_DELAY = 1000;
+            
+            // Conversation flow
+            let currentStep = 0;
+            const progress = [0, 20, 40, 60, 80, 100];
+            
+            // Tutorial conversation
+            const tutorialFlow = [
+                {
+                    type: 'tutor',
+                    content: 'Welcome to our Photosynthesis tutorial! Let\'s explore how plants convert sunlight into energy. <span class="emoji">🌱</span> Ready to dive in?'
+                },
+                {
+                    type: 'options',
+                    question: 'What is the primary purpose of photosynthesis?',
+                    options: [
+                        { text: 'To generate oxygen for humans', correct: false },
+                        { text: 'To reproduce and create more plants', correct: false },
+                        { text: 'To convert light energy into chemical energy', correct: true },
+                        { text: 'To absorb carbon dioxide from the atmosphere', correct: false }
+                    ],
+                    feedback: {
+                        correct: 'Absolutely right! Plants convert light energy from the sun into chemical energy that can be used as fuel.',
+                        incorrect: 'Not quite. While those are related to plant processes, the primary purpose of photosynthesis is to convert light energy into chemical energy.'
+                    }
+                },
+                {
+                    type: 'tutor',
+                    content: 'For photosynthesis to occur, plants need several key ingredients. <span class="emoji">☀️</span> <span class="emoji">💧</span> <span class="emoji">🌫️</span> Let\'s identify them!'
+                },
+                {
+                    type: 'interactive',
+                    content: 'Tap on this bubble to reveal the essential ingredients for photosynthesis.',
+                    reveal: 'Plants need: Sunlight (captured by chlorophyll), Water (absorbed through roots), and Carbon Dioxide (taken from the air). Amazing how they combine these simple elements!'
+                },
+                {
+                    type: 'options',
+                    question: 'Which organelle is the primary site of photosynthesis?',
+                    options: [
+                        { text: 'Mitochondria', correct: false },
+                        { text: 'Nucleus', correct: false },
+                        { text: 'Chloroplast', correct: true },
+                        { text: 'Ribosome', correct: false }
+                    ],
+                    feedback: {
+                        correct: 'That\'s right! Chloroplasts contain chlorophyll, the green pigment that captures sunlight for photosynthesis.',
+                        incorrect: 'Not correct. Photosynthesis primarily occurs in chloroplasts, which contain the green pigment chlorophyll.'
+                    },
+                    hint: 'Think about what gives plants their green color!'
+                },
+                {
+                    type: 'tutor',
+                    content: 'Great job! <span class="emoji">🎉</span> The photosynthesis equation is: 6CO₂ + 6H₂O + Light Energy → C₆H₁₂O₆ + 6O₂'
+                },
+                {
+                    type: 'tutor',
+                    content: 'You\'ve completed the basic photosynthesis tutorial! Ready to move on to the light-dependent and light-independent reactions?'
+                }
+            ];
+            
+            // Create particles for background effect
+            function createParticles() {
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    // Random position
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    
+                    // Random size
+                    const size = Math.random() * 15 + 5;
+                    
+                    // Random opacity
+                    const opacity = Math.random() * 0.3 + 0.1;
+                    
+                    // Apply styles
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${posX}%`;
+                    particle.style.top = `${posY}%`;
+                    particle.style.opacity = opacity;
+                    
+                    // Random pastel color
+                    const colors = ['rgba(161, 219, 245, 0.3)', 'rgba(255, 202, 212, 0.3)', 'rgba(200, 231, 255, 0.3)', 'rgba(212, 240, 198, 0.3)'];
+                    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    particlesContainer.appendChild(particle);
+                    
+                    // Animate randomly
+                    animateParticle(particle);
+                }
+            }
+            
+            function animateParticle(particle) {
+                const duration = Math.random() * 20000 + 10000; // 10-30 seconds
+                let startX = parseFloat(particle.style.left);
+                let startY = parseFloat(particle.style.top);
+                
+                // Random destination
+                const destX = Math.random() * 100;
+                const destY = Math.random() * 100;
+                
+                let startTime = null;
+                
+                function moveParticle(timestamp) {
+                    if (!startTime) startTime = timestamp;
+                    const elapsed = timestamp - startTime;
+                    const progress = elapsed / duration;
+                    
+                    if (progress < 1) {
+                        const currentX = startX + (destX - startX) * progress;
+                        const currentY = startY + (destY - startY) * progress;
+                        
+                        particle.style.left = `${currentX}%`;
+                        particle.style.top = `${currentY}%`;
+                        
+                        requestAnimationFrame(moveParticle);
+                    } else {
+                        // Reset for the next animation
+                        startX = destX;
+                        startY = destY;
+                        startTime = null;
+                        
+                        // Continue animation with new destination
+                        animateParticle(particle);
+                    }
+                }
+                
+                requestAnimationFrame(moveParticle);
+            }
+
+            // Show typing indicator
+            function showTypingIndicator() {
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'typing-indicator';
+                typingIndicator.id = 'typingIndicator';
+
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'typing-dot';
+                    typingIndicator.appendChild(dot);
+                }
+
+                chatMessages.appendChild(typingIndicator);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                setTimeout(() => {
+                    typingIndicator.classList.add('show');
+                }, 100);
+            }
+
+            // Hide typing indicator
+            function hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typingIndicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+
+            // Add message to chat
+            function addMessage(type, content, additionalClass = '', interactive = false) {
+                hideTypingIndicator();
+                
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${type} ${additionalClass}`;
+                messageDiv.innerHTML = content;
+                
+                if (interactive) {
+                    messageDiv.classList.add('interactive');
+                    messageDiv.addEventListener('click', function() {
+                        handleInteractiveMessage(messageDiv, type);
+                    });
+                }
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                return messageDiv;
+            }
+
+            // Handle interactive messages
+            function handleInteractiveMessage(messageElement, step) {
+                const currentStep = tutorialFlow[currentStep - 1];
+                if (currentStep && currentStep.type === 'interactive') {
+                    messageElement.innerHTML = currentStep.reveal;
+                    messageElement.classList.remove('interactive');
+                    
+                    // Add subtle animation
+                    messageElement.classList.add('sparkle');
+                    setTimeout(() => {
+                        messageElement.classList.remove('sparkle');
+                    }, 1000);
+                    
+                    // Continue the flow after interaction
+                    setTimeout(() => {
+                        advanceTutorial();
+                    }, 2000);
+                }
+            }
+
+            // Add options message
+            function addOptionsMessage(question, options) {
+                hideTypingIndicator();
+                
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'option-message';
+                
+                const questionPara = document.createElement('p');
+                questionPara.textContent = question;
+                optionsDiv.appendChild(questionPara);
+                
+                options.forEach((option, index) => {
+                    const button = document.createElement('button');
+                    button.className = 'option-button';
+                    button.textContent = option.text;
+                    button.dataset.correct = option.correct;
+                    button.dataset.index = index;
+                    
+                    button.addEventListener('click', function() {
+                        handleOptionClick(this, options);
+                    });
+                    
+                    optionsDiv.appendChild(button);
+                });
+                
+                chatMessages.appendChild(optionsDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Handle option click
+            function handleOptionClick(button, options) {
+                const isCorrect = button.dataset.correct === 'true';
+                const currentStepData = tutorialFlow[currentStep - 1];
+                
+                // Disable all buttons
+                const allButtons = button.parentElement.querySelectorAll('.option-button');
+                allButtons.forEach(btn => {
+                    btn.disabled = true;
+                    
+                    // Show which answers were correct/incorrect
+                    if (btn.dataset.correct === 'true') {
+                        btn.classList.add('correct');
+                    } else if (btn === button && !isCorrect) {
+                        btn.classList.add('incorrect');
+                    }
+                });
+                
+                // Show feedback animation
+                if (isCorrect) {
+                    showFeedbackAnimation('✓');
+                    progressBar.style.width = `${progress[currentStep]}%`;
+                } else {
+                    showFeedbackAnimation('✗');
+                    
+                    // Show hint if available
+                    if (currentStepData.hint) {
+                        setTimeout(() => {
+                            addMessage('hint', currentStepData.hint);
+                        }, 1000);
+                    }
+                }
+                
+                // Add feedback message
+                setTimeout(() => {
+                    const feedback = isCorrect ? currentStepData.feedback.correct : currentStepData.feedback.incorrect;
+                    addMessage('tutor', feedback);
+                    
+                    // Continue after feedback
+                    setTimeout(() => {
+                        // Add continue button if incorrect
+                        if (!isCorrect) {
+                            const continueButton = document.createElement('button');
+                            continueButton.className = 'continue-button';
+                            continueButton.innerHTML = 'Continue <div class="checkmark"><div class="checkmark-stem"></div><div class="checkmark-kick"></div></div>';
+                            
+                            continueButton.addEventListener('click', function() {
+                                this.remove();
+                                advanceTutorial();
+                            });
+                            
+                            chatMessages.appendChild(continueButton);
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                        } else {
+                            advanceTutorial();
+                        }
+                    }, 1500);
+                }, 1000);
+            }
+
+            // Show feedback animation
+            function showFeedbackAnimation(symbol) {
+                feedbackAnimation.textContent = symbol;
+                feedbackAnimation.className = 'feedback-animation';
+                
+                // Force reflow
+                void feedbackAnimation.offsetWidth;
+                
+                feedbackAnimation.classList.add('show');
+                
+                setTimeout(() => {
+                    feedbackAnimation.classList.remove('show');
+                }, 1000);
+            }
+
+            // Advance to next tutorial step
+            function advanceTutorial() {
+                if (currentStep < tutorialFlow.length) {
+                    const step = tutorialFlow[currentStep];
+                    currentStep++;
+                    
+                    // Update progress bar
+                    progressBar.style.width = `${progress[currentStep-1]}%`;
+                    
+                    // Show typing indicator before tutor messages
+                    if (step.type === 'tutor' || step.type === 'options' || step.type === 'interactive') {
+                        showTypingIndicator();
+                    }
+                    
+                    // Delay to simulate typing
+                    setTimeout(() => {
+                        if (step.type === 'tutor') {
+                            addMessage('tutor', step.content);
+                            
+                            // Continue after tutor message
+                            setTimeout(advanceTutorial, MESSAGE_DELAY);
+                        } else if (step.type === 'options') {
+                            addOptionsMessage(step.question, step.options);
+                        } else if (step.type === 'interactive') {
+                            addMessage('tutor', step.content, '', true);
+                        }
+                    }, TYPING_DELAY);
+                }
+            }
+
+            // Start tutorial
+            function startTutorial() {
+                createParticles();
+                advanceTutorial();
+            }
+            
+            // Send button functionality
+            sendButton.addEventListener('click', function() {
+                const message = messageInput.value.trim();
+                if (message) {
+                    addMessage('user', message);
+                    messageInput.value = '';
+                    
+                    // Wait and respond
+                    setTimeout(() => {
+                        showTypingIndicator();
+                        
+                        setTimeout(() => {
+                            addMessage('tutor', 'Thanks for your message! Please use the options provided to continue with the tutorial.');
+                        }, TYPING_DELAY);
+                    }, 500);
+                }
+            });
+            
+            // Allow Enter key to send messages
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                    e.preventDefault();
+                }
+            });
+            
+            // Start the tutorial
+            startTutorial();
+        });
+    </script>
+</body>
+</html>
