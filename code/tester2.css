@@ -311,3 +311,55 @@ nav li:first-child{
     padding-left: 0;
 } 
 
+/*Task List*/
+h2 {
+    margin-bottom: none;
+
+}
+.inputTasks, .addingTasks {
+    outline: none;
+    border: none;
+    font-family: inherit;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3 ease;
+    margin-bottom: 1rem;
+    &:hover {
+        background-color: #e1e1e1;
+    }
+}
+.containerTask {
+    max-width: 900px;
+    margin: 0 auto;
+     display: flex;
+    flex-direction: column;
+    align-items: right;
+}
+
+.task.item {
+    max-width: 270px;
+    height: 25px;
+    margin: 5px 0;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    padding-left: 10px;
+    padding-top: 3px;
+}
+@keyframes animateAdd {
+    0% {
+        opacity: 0;
+        trandform: translateX(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+.completed {
+    text-decoration: line-through;
+    background-color: purple;
+}
