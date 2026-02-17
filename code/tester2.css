@@ -327,15 +327,22 @@ h2 {
     transition: all 0.3 ease;
     margin-bottom: 1rem;
     &:hover {
-        background-color: #e1e1e1;
+        background-color: rgb(122, 0, 128);
     }
 }
 .containerTask {
     max-width: 900px;
     margin: 0 auto;
-     display: flex;
-    flex-direction: column;
-    align-items: right;
+    display: block;
+    width: 100%;
+    display: block;  
+    margin:10px 0;
+    text-decoration: none;
+    padding-left: 20px;
+   /* flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    */
 }
 
 .task.item {
