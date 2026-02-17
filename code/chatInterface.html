@@ -2,82 +2,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Learning Conversation UI</title>
+    <title>Pi&AI</title>
+    <link href="images/Pi-Transparent.png" rel="icon" type="image/x-icon">
     <style>
         :root {
-            --primary: #a1dbf5;
-            --secondary: #ffcad4;
-            --tertiary: #c8e7ff;
-            --quaternary: #d4f0c6;
+            --primary: #dca0e8;
+            --secondary: #f4e8f6;
+            --tertiary: #e0b3e8;
+            --quaternary: #c480d0;
             --correct: #9aecb3;
             --hint: #ffe599;
-            --text: #4a5568;
-            --bubble-radius: 22px;
+            --text: #2d0033;
+            --bubble-radius: 8px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Comic Neue', 'Quicksand', 'Arial Rounded MT Bold', sans-serif;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            background-color: #f9f9ff;
+            background-color: #efccf6;
             color: var(--text);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
             height: 100vh;
-            padding: 20px;
+            padding: 0;
             overflow-x: hidden;
-            max-width: 700px;
-            margin: 0 auto;
+            margin: 0;
         }
 
         .chat-container {
             width: 100%;
-            max-width: 650px;
-            height: 570px;
-            background-color: white;
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            max-width: 100%;
+            height: 100vh;
+            background-color: #c0c0c0;
+            border-radius: 0;
+            box-shadow: none;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             position: relative;
+            border: 3px solid black;
         }
 
         .chat-header {
-            background: linear-gradient(135deg, var(--primary), var(--tertiary));
-            padding: 18px 20px;
+            background: linear-gradient(to right, rgb(122, 0, 128), rgb(234, 0, 255));
+            padding: 12px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-radius: 25px 25px 0 0;
+            border-radius: 0;
             z-index: 10;
         }
 
         .chat-header h1 {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            color: #4a5568;
+            color: white;
+        }
+
+        .chat-header a {
+            color: white !important;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 10px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 4px;
+        }
+
+        .chat-header a:hover {
+            background: rgba(255,255,255,0.3);
         }
 
         .progress-container {
-            height: 5px;
+            height: 6px;
             width: 100px;
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
             overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.2);
         }
 
         .progress-bar {
             height: 100%;
             width: 30%;
             background-color: white;
-            border-radius: 10px;
+            border-radius: 3px;
             transition: width 0.5s ease;
         }
 
@@ -89,11 +105,12 @@
             flex-direction: column;
             gap: 15px;
             scroll-behavior: smooth;
+            background-color: #efccf6;
         }
 
         .message {
             max-width: 80%;
-            padding: 16px 20px;
+            padding: 14px 18px;
             border-radius: var(--bubble-radius);
             line-height: 1.5;
             position: relative;
@@ -101,12 +118,14 @@
             opacity: 0;
             transform: translateY(20px);
             animation: fadeIn 0.5s forwards;
+            border: 2px solid rgba(0,0,0,0.15);
         }
 
         .message.tutor {
             align-self: flex-start;
-            background-color: var(--primary);
-            border-bottom-left-radius: 5px;
+            background-color: var(--secondary);
+            border-bottom-left-radius: 2px;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.15);
         }
 
         .message.tutor::before {
@@ -116,17 +135,18 @@
             left: -10px;
             width: 20px;
             height: 20px;
-            background-color: var(--primary);
+            background-color: var(--secondary);
             border-bottom-right-radius: 20px;
             z-index: -1;
         }
 
         .message.user {
             align-self: flex-end;
-            background-color: var(--secondary);
-            border-bottom-right-radius: 5px;
+            background-color: var(--primary);
+            border-bottom-right-radius: 2px;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.15);
         }
-        
+
         .message.user::before {
             content: '';
             position: absolute;
@@ -134,15 +154,15 @@
             right: -10px;
             width: 20px;
             height: 20px;
-            background-color: var(--secondary);
+            background-color: var(--primary);
             border-bottom-left-radius: 20px;
             z-index: -1;
         }
 
         .option-message {
-            background-color: var(--tertiary);
+            background-color: var(--secondary);
             padding: 15px;
-            border-radius: 15px;
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -151,21 +171,23 @@
             opacity: 0;
             transform: translateY(20px);
             animation: fadeIn 0.5s forwards;
+            border: 2px solid rgba(0,0,0,0.15);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.15);
         }
 
         .option-button {
-            background-color: white;
-            border: none;
-            border-radius: 15px;
-            padding: 12px 15px;
+            background-color: #c0c0c0;
+            border: 2px solid black;
+            border-radius: 4px;
+            padding: 10px 15px;
             text-align: left;
             font-size: 0.95rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             color: var(--text);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             position: relative;
             overflow: hidden;
+            font-family: Arial, sans-serif;
         }
 
         .option-button::before {
@@ -182,21 +204,28 @@
 
         .option-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            background-color: #d8d8d8;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.2);
         }
 
         .option-button:hover::before {
             transform: translateX(100%);
         }
 
+        .option-button:active {
+            border-style: inset;
+        }
+
         .option-button.correct {
             background-color: var(--correct);
             transform: scale(1.05);
+            border-color: #2e7d32;
         }
 
         .option-button.incorrect {
             background-color: #ffcccb;
             opacity: 0.7;
+            border-color: #c62828;
         }
 
         .message.hint {
@@ -206,7 +235,8 @@
             max-width: 90%;
             font-size: 0.9rem;
             transform: rotate(-1deg);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.15);
+            border: 2px solid rgba(0,0,0,0.15);
         }
 
         .emoji {
@@ -222,47 +252,50 @@
         }
 
         .chat-input {
-            padding: 15px 20px;
-            background-color: #f5f7fa;
+            padding: 12px 20px;
+            background-color: #c0c0c0;
             display: flex;
             align-items: center;
-            border-top: 1px solid #edf2f7;
+            border-top: 3px solid black;
             z-index: 10;
         }
 
         .message-input {
             flex: 1;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 30px;
+            padding: 10px 16px;
+            border: 2px solid black;
+            border-radius: 4px;
             font-size: 0.95rem;
             background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            font-family: Arial, sans-serif;
         }
 
         .message-input:focus {
             outline: none;
-            box-shadow: 0 0 0 2px var(--primary);
+            box-shadow: 0 0 0 2px rgb(196, 90, 236);
         }
 
         .send-button {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 4px;
+            background-color: rgb(196, 90, 236);
+            border: 2px solid black;
             margin-left: 10px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
         }
 
         .send-button:hover {
-            transform: scale(1.05);
-            background-color: #8fd1f3;
+            transform: translateY(-3px);
+            background-color: rgb(220, 120, 255);
+        }
+
+        .send-button:active {
+            border-style: inset;
         }
 
         .send-button svg {
@@ -272,15 +305,16 @@
         }
 
         .continue-button {
-            background-color: var(--quaternary);
-            border: none;
-            border-radius: 20px;
-            padding: 10px 20px;
+            background-color: rgb(196, 90, 236);
+            border: 2px solid black;
+            border-radius: 4px;
+            padding: 8px 18px;
             align-self: center;
             margin-top: 10px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s ease;
+            color: white;
+            transition: all 0.2s ease;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeIn 0.5s forwards 0.3s;
@@ -291,7 +325,11 @@
 
         .continue-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+        }
+
+        .continue-button:active {
+            border-style: inset;
         }
 
         .feedback-animation {
@@ -317,8 +355,9 @@
             align-items: center;
             gap: 5px;
             padding: 10px 20px;
-            border-radius: 20px;
-            background-color: var(--primary);
+            border-radius: 8px;
+            background-color: var(--secondary);
+            border: 2px solid rgba(0,0,0,0.15);
             align-self: flex-start;
             margin-top: 5px;
             opacity: 0;
@@ -333,7 +372,7 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.7);
+            background-color: rgb(196, 90, 236);
             animation: typingAnimation 1.4s infinite;
         }
 
@@ -383,15 +422,16 @@
         .avatar {
             width: 28px;
             height: 28px;
-            border-radius: 50%;
-            background-color: #d1f0ea;
+            border-radius: 4px;
+            background-color: rgba(255,255,255,0.3);
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 10px;
             font-weight: bold;
             font-size: 16px;
-            color: #45818e;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.4);
         }
 
         .user-info {
@@ -411,7 +451,7 @@
 
         .particle {
             position: absolute;
-            background-color: rgba(161, 219, 245, 0.3);
+            background-color: rgba(200, 100, 220, 0.2);
             border-radius: 50%;
             pointer-events: none;
             opacity: 0.5;
@@ -419,7 +459,7 @@
 
         @media (max-width: 600px) {
             .chat-container {
-                height: 510px;
+                height: 100vh;
                 width: 100%;
             }
 
@@ -430,27 +470,27 @@
             }
 
             .chat-header h1 {
-                font-size: 1.2rem;
+                font-size: 1rem;
             }
         }
 
         /* Custom scrollbar */
         .chat-messages::-webkit-scrollbar {
-            width: 8px;
+            width: 16px;
         }
 
         .chat-messages::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
+            background: #c0c0c0;
+            border: 1px solid #808080;
         }
 
         .chat-messages::-webkit-scrollbar-thumb {
-            background: #d3d3d3;
-            border-radius: 10px;
+            background: #a0a0a0;
+            border: 2px solid black;
         }
 
         .chat-messages::-webkit-scrollbar-thumb:hover {
-            background: #c1c1c1;
+            background: #888;
         }
 
         /* Checkmark animation */
@@ -467,7 +507,7 @@
             position: absolute;
             width: 3px;
             height: 10px;
-            background-color: #4CAF50;
+            background-color: white;
             left: 10px;
             top: 5px;
         }
@@ -476,7 +516,7 @@
             position: absolute;
             width: 7px;
             height: 3px;
-            background-color: #4CAF50;
+            background-color: white;
             left: 4px;
             top: 12px;
         }
@@ -511,11 +551,15 @@
     <div class="chat-container">
         <div class="chat-header">
             <div class="user-info">
-                <div class="avatar">T</div>
-                <h1>Photosynthesis Tutorial</h1>
+                <div class="avatar">Pi</div>
+                <h1>Pi&AI - Photosynthesis Tutorial</h1>
             </div>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <a href="firstPage.html">Home</a>
+                <a href="secondPage.html">Study Tools</a>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
             </div>
         </div>
         <div class="chat-messages" id="chatMessages">
@@ -629,7 +673,7 @@
                     particle.style.opacity = opacity;
                     
                     // Random pastel color
-                    const colors = ['rgba(161, 219, 245, 0.3)', 'rgba(255, 202, 212, 0.3)', 'rgba(200, 231, 255, 0.3)', 'rgba(212, 240, 198, 0.3)'];
+                    const colors = ['rgba(200, 100, 220, 0.2)', 'rgba(234, 0, 255, 0.15)', 'rgba(180, 80, 200, 0.2)', 'rgba(244, 232, 246, 0.3)'];
                     particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                     
                     particlesContainer.appendChild(particle);
