@@ -23,12 +23,12 @@
     </div>
 
     <!-- Timer -->
- <div class="container">
+    <div class="container">
         <h1 class="title">Timer</h1>
 
         <hr>
 
-        <p class="timer" id = "timer">25:00</p>
+        <p class="timer" id = "timer" contenteditable="true">00:00</p>
 
         <div class="button-wrapper">
             <button id="start">Start</button>
@@ -37,24 +37,28 @@
         </div>
     </div>
 
-    <img class="pi" src="PI.png">
+    <!-- Task List -->
+     <div class = "containerTask">
+    <h2>My Tasks</h2> 
+            <div><form id="task-form">
+                <input class="inputTasks" type="text" id="task-input" placeholder = "Enter a task...
+                "/>
+                <button class="addingTasks" type = "submit">Add Task to List</button>     
+            </form> </div>
+            <ul id="task-list">
+               
+            </ul>
+        </div>
 
-    <!-- Address + Search -->
-    <!--<header>
-    <div class="toolbar">
-        <div class="address">D:Folder</div>
-        <input type="text" placeholder="Search">
-    </div>
-    </header> -->
-
-    <!-- Side Bar -->
+<!--
+     Side Bar 
      <div>
     <nav class="tofixnav">
         <ul class="sidebar">
-           <!-- <li>
+            <li>
                 <img src="images/menuLogo.png" alt="Logo" class="sidebar-logo">
-            </li> -->
-            <li><a href="#">Coding2go</a></li>
+            </li>
+            <li><a href="#">Tasks List</a></li>
             <li><a href="#">Blog</a></li>
             <li><a href="#">Products</a></li>
             <li><a href="#">About</a></li>
@@ -63,12 +67,69 @@
         </ul>
     </nav>
     </div>
+-->
+    <!-- Speech Bubble --> 
+    <p class="speech-bubble">Hello<br>everyone!</p>
+    <style>
+    .speech-bubble {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 3px;
+    font-size: 15px;        /* smaller text */
+    color: #774f38;
+    background-color: #f4e8f6;
 
+    padding: 20px;          /* reduced from 50px */
+    border-radius: 12px;
+    position: relative;
+    font-family: cursive;
+
+    max-width: 320px;       /* prevents full width */
+    width: fit-content;     /* adjusts to text */
+    margin: 40px auto;      /* centers it */
+
+    box-shadow: 20px 20px #830396;
+
+    animation: float 5s ease-in-out infinite;
+    }
+
+    /* Tail */
+    .speech-bubble::after {
+        content: "";
+        position: absolute;
+        bottom: -30px;
+        left: 40px;
+
+        width: 40px;
+        height: 25px;
+        background-color: #f4e8f6;
+        border-radius: 10px;
+
+        box-shadow: 20px 20px #830396;
+    }   
+    @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+    }
+        
+    </style>
     
+    <img id="clock-ring" src="images/clock-ringing.png" 
+     alt="Clock Ringing" 
+     style="visibility:hidden; width:100px; margin-top:20px; margin-left:1050px;">
+
+
+    <img class="pi" src="images/PI.png" >
+
 
 </div>
 
+
     <script src="app.js"></script>
+
+    <!-- JS for speech bubble -->
 
 </body>
 </html>

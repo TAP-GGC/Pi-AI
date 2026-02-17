@@ -23,7 +23,7 @@ body {
     overflow: hidden;
 }
 
-/* Title Bar */
+/* Title Bar Timer */
 .title-bar {
     background: linear-gradient(to right, rgb(122, 0, 128), rgb(234, 0, 255));
     color: white;
@@ -150,6 +150,8 @@ body {
     font-size: 1.5em;
 
 }
+
+/* Timer */
 .timer{
     font-size: 4em;
     font-weight: 700;
@@ -160,6 +162,12 @@ hr{
     height: 5px;
     border-radius: 1em;
     border: none;
+}
+
+.pi{
+    display: block;
+    margin: 0 auto;
+    width: 25%;
 }
 
 .button-wrapper{
@@ -228,40 +236,9 @@ nav li:first-child{
     margin-right: auto;
 }
 
-.sidebar{
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 250px;
-    z-index: 999;
-    background-color: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-}
 .sidebar li{
     width: 100%;
 }
-.sidebar a{
-    display: block;
-    width: 100%;
-    display: block;   <-- makes the element starts on a new line
-    and takes up the full width available  
-    margin:10px 0;
-    text-decoration: none;
-    
-}
-.sidebar-logo{
-    width: 30px;
-    height: auto;
-    display: block;
-    /*margin-left: 0;
-    padding-left: 0;
-} 
 
 */
 
@@ -271,13 +248,13 @@ nav li:first-child{
   height: calc(100vh - 80px); /* subtract header height */
 }
 
-/* Sidebar */
+/* Sidebar 
 .sidebar {
   width: 220px;
   padding: 20px;
   box-sizing: border-box;
 
-/* more design for the sidebar */  
+ more design for the sidebar  
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
@@ -287,16 +264,121 @@ nav li:first-child{
   justify-content: flex-start;
   z-index: 999;
 }
+  */
+.sidebar{
+    position: -webkit-sticky;
+    height: 35vh;
+    width: 250px;
 
+    
+    z-index: 999;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+/*
 .sidebar a {
   display: block;
   margin: 10px 0;
   text-decoration: none;
   color: blue;
 }
+*/
+.sidebar a{
+    display: block;
+    width: 100%;
+    display: block;  
+    margin:10px 0;
+    text-decoration: none;
+    
+}
 
 /* Content Area */
 .content {
   flex: 1;
   padding: 20px;
+}
+
+.sidebar-logo{
+    width: 30px;
+    height: auto;
+    display: block;
+    padding-left: 0;
+} 
+
+/*Task List*/
+h2 {
+    margin-bottom: none;
+
+}
+.inputTasks, .addingTasks {
+    outline: none;
+    border: none;
+    font-family: inherit;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3 ease;
+    margin-bottom: 1rem;
+    &:hover {
+        background-color: #e1e1e1;
+    }
+}
+.containerTask {
+    max-width: 900px;
+    margin: 0 auto;
+     display: flex;
+    flex-direction: column;
+    align-items: right;
+}
+
+.task.item {
+    max-width: 270px;
+    height: 25px;
+    margin: 5px 0;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    padding-left: 10px;
+    padding-top: 3px;
+}
+@keyframes animateAdd {
+    0% {
+        opacity: 0;
+        trandform: translateX(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+.completed {
+    text-decoration: line-through;
+    background-color: purple;
+}
+
+/* Clock animation*/
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(15deg); }
+  20% { transform: rotate(-15deg); }
+  30% { transform: rotate(10deg); }
+  40% { transform: rotate(-10deg); }
+  50% { transform: rotate(5deg); }
+  60% { transform: rotate(-5deg); }
+  70% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.shake {
+  animation: shake 1s infinite;
+
+
 }
