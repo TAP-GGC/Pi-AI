@@ -2,12 +2,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Learning Conversation UI</title>
+    <link href = "images/Pi-Transparent.png" rel="icon" type="image/x-icon">
+    <title>Pi&AI</title>
     <style>
         :root {
-            --primary: #a1dbf5;
+            --primary: #eba1f5;
             --secondary: #ffcad4;
-            --tertiary: #c8e7ff;
+            --tertiary: #f6c8ff;
             --quaternary: #d4f0c6;
             --correct: #9aecb3;
             --hint: #ffe599;
@@ -23,7 +24,7 @@
         }
 
         body {
-            background-color: #f9f9ff;
+            background-color: #efccf6;
             color: var(--text);
             display: flex;
             flex-direction: column;
@@ -50,7 +51,7 @@
         }
 
         .chat-header {
-            background: linear-gradient(135deg, var(--primary), var(--tertiary));
+            background: linear-gradient(to left, rgb(122, 0, 128), rgb(234, 0, 255));
             padding: 18px 20px;
             display: flex;
             align-items: center;
@@ -262,7 +263,7 @@
 
         .send-button:hover {
             transform: scale(1.05);
-            background-color: #8fd1f3;
+            background-color: #e68ff3;
         }
 
         .send-button svg {
@@ -384,14 +385,14 @@
             width: 28px;
             height: 28px;
             border-radius: 50%;
-            background-color: #d1f0ea;
+            background-color: #f0d1ee;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 10px;
             font-weight: bold;
             font-size: 16px;
-            color: #45818e;
+            color: #410049;
         }
 
         .user-info {
@@ -511,8 +512,8 @@
     <div class="chat-container">
         <div class="chat-header">
             <div class="user-info">
-                <div class="avatar">T</div>
-                <h1>Photosynthesis Tutorial</h1>
+                <div class="avatar">π</div>
+                <h1>Pi Math Tutor</h1>
             </div>
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
@@ -555,53 +556,45 @@
             const tutorialFlow = [
                 {
                     type: 'tutor',
-                    content: 'Welcome to our Photosynthesis tutorial! Let\'s explore how plants convert sunlight into energy. <span class="emoji">🌱</span> Ready to dive in?'
+                    content: 'Welcome to your Math Tutor! 🧠✨ Today we\'ll solve equations together. Readyto dive in?'
                 },
                 {
                     type: 'options',
-                    question: 'What is the primary purpose of photosynthesis?',
+                    question: 'Solve: 3x + 5 = 20',
                     options: [
-                        { text: 'To generate oxygen for humans', correct: false },
-                        { text: 'To reproduce and create more plants', correct: false },
-                        { text: 'To convert light energy into chemical energy', correct: true },
-                        { text: 'To absorb carbon dioxide from the atmosphere', correct: false }
+                        { text: 'x = 5', correct: true },
+                        { text: 'x = 15', correct: false },
+                        { text: 'x = 25', correct: false },
+                        { text: 'x = 10', correct: false }
                     ],
                     feedback: {
-                        correct: 'Absolutely right! Plants convert light energy from the sun into chemical energy that can be used as fuel.',
-                        incorrect: 'Not quite. While those are related to plant processes, the primary purpose of photosynthesis is to convert light energy into chemical energy.'
-                    }
-                },
-                {
-                    type: 'tutor',
-                    content: 'For photosynthesis to occur, plants need several key ingredients. <span class="emoji">☀️</span> <span class="emoji">💧</span> <span class="emoji">🌫️</span> Let\'s identify them!'
-                },
-                {
-                    type: 'interactive',
-                    content: 'Tap on this bubble to reveal the essential ingredients for photosynthesis.',
-                    reveal: 'Plants need: Sunlight (captured by chlorophyll), Water (absorbed through roots), and Carbon Dioxide (taken from the air). Amazing how they combine these simple elements!'
-                },
-                {
-                    type: 'options',
-                    question: 'Which organelle is the primary site of photosynthesis?',
-                    options: [
-                        { text: 'Mitochondria', correct: false },
-                        { text: 'Nucleus', correct: false },
-                        { text: 'Chloroplast', correct: true },
-                        { text: 'Ribosome', correct: false }
-                    ],
-                    feedback: {
-                        correct: 'That\'s right! Chloroplasts contain chlorophyll, the green pigment that captures sunlight for photosynthesis.',
-                        incorrect: 'Not correct. Photosynthesis primarily occurs in chloroplasts, which contain the green pigment chlorophyll.'
+                        correct: 'Correct! Subtract 5 from both sides: 3x = 15, then divide by 3.',
+                        incorrect: 'Not quite. First subtract 5 from both sides, then divide by 3.'
                     },
-                    hint: 'Think about what gives plants their green color!'
+                    hint: 'Try isolating x by removing 5 first.'
                 },
                 {
                     type: 'tutor',
-                    content: 'Great job! <span class="emoji">🎉</span> The photosynthesis equation is: 6CO₂ + 6H₂O + Light Energy → C₆H₁₂O₆ + 6O₂'
+                    content: 'Great! Let’s try something slightly harder 🔥'
+                },
+                {
+                    type: 'options',
+                    question: 'What is the derivative of x²?',
+                    options: [
+                        { text: '2x', correct: true },
+                        { text: 'x', correct: false },
+                        { text: 'x³', correct: false },
+                        { text: '2', correct: false }
+                    ],
+                    feedback: {
+                        correct: 'Yes! The power rule says bring the exponent down and subtract 1.',
+                        incorrect: 'Remember the power rule: d/dx (xⁿ) = n·xⁿ⁻¹'
+                    },
+                    hint: 'Use the power rule.'
                 },
                 {
                     type: 'tutor',
-                    content: 'You\'ve completed the basic photosynthesis tutorial! Ready to move on to the light-dependent and light-independent reactions?'
+                    content: 'Awesome work! 🎉 You\'re building real math skills!'
                 }
             ];
             
@@ -898,7 +891,7 @@
                         showTypingIndicator();
                         
                         setTimeout(() => {
-                            addMessage('tutor', 'Thanks for your message! Please use the options provided to continue with the tutorial.');
+                            addMessage('tutor', 'Thanks for your message! Please use the options provided...');
                         }, TYPING_DELAY);
                     }, 500);
                 }
