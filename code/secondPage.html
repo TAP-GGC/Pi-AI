@@ -73,7 +73,7 @@
     </div>
 -->
     <!-- Speech Bubble --> 
-    <p class="speech-bubble">Hello<br>everyone!</p>
+    <p class="speech-bubble" id="speechBubble">Hello<br>everyone!</p>
     <style>
     .speech-bubble {
     text-align: center;
@@ -116,6 +116,22 @@
     0% { transform: translateY(0px); }
     50% { transform: translateY(-20px); }
     100% { transform: translateY(0px); }
+    }
+
+    .bubble-button {
+    background-color: #7a0080;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.3s ease;
+    }
+
+    .bubble-button:hover {
+        background-color: #9c00a8;
+        transform: scale(1.05);
     }
         
     </style>
