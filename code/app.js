@@ -4,6 +4,8 @@ const stop = document.getElementById("stop");
 const reset = document.getElementById("reset");
 const timer = document.getElementById("timer");
 const clockRingImage = document.getElementById("clock-ring"); 
+const speechBubble = document.getElementById("speechBubble");
+
 
 // ---------------- TIMER LOGIC ----------------
 let customTime = 0; // default 25:00
@@ -155,4 +157,18 @@ taskForm.addEventListener("submit", function(event){
         taskIndex++;
         taskInput.value = "";
     }
+
 });
+
+// ---------------- SPEECH BUBBLE MESSAGE ----------------
+setTimeout(() => {
+    if (speechBubble) {
+        speechBubble.innerHTML = `
+        Do you need assistance?<br><br>
+        <button class="bubble-button" onclick="window.location.href='chatInterface.html'">
+                Yes, please →
+            </button>
+        `;
+    }
+}, 3000);
+
