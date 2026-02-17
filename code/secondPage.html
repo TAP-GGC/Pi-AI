@@ -23,12 +23,12 @@
     </div>
 
     <!-- Timer -->
- <div class="container">
+    <div class="container">
         <h1 class="title">Timer</h1>
 
         <hr>
 
-        <p class="timer" id = "timer">25:00</p>
+        <p class="timer" id = "timer" contenteditable="true">00:00</p>
 
         <div class="button-wrapper">
             <button id="start">Start</button>
@@ -36,14 +36,6 @@
             <button id="reset">Reset</button>
         </div>
     </div>
-
-    <!-- Address + Search -->
-    <!--<header>
-    <div class="toolbar">
-        <div class="address">D:Folder</div>
-        <input type="text" placeholder="Search">
-    </div>
-    </header> -->
 
     <!-- Task List -->
      <div class = "containerTask">
@@ -58,8 +50,8 @@
             </ul>
         </div>
 
-
-    <!-- Side Bar -->
+<!--
+     Side Bar 
      <div>
     <nav class="tofixnav">
         <ul class="sidebar">
@@ -75,13 +67,69 @@
         </ul>
     </nav>
     </div>
+-->
+    <!-- Speech Bubble --> 
+    <p class="speech-bubble">Hello<br>everyone!</p>
+    <style>
+    .speech-bubble {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 3px;
+    font-size: 15px;        /* smaller text */
+    color: #774f38;
+    background-color: #f4e8f6;
 
-    <img class="pi" src="images/PI.png">
+    padding: 20px;          /* reduced from 50px */
+    border-radius: 12px;
+    position: relative;
+    font-family: cursive;
+
+    max-width: 320px;       /* prevents full width */
+    width: fit-content;     /* adjusts to text */
+    margin: 40px auto;      /* centers it */
+
+    box-shadow: 20px 20px #830396;
+
+    animation: float 5s ease-in-out infinite;
+    }
+
+    /* Tail */
+    .speech-bubble::after {
+        content: "";
+        position: absolute;
+        bottom: -30px;
+        left: 40px;
+
+        width: 40px;
+        height: 25px;
+        background-color: #f4e8f6;
+        border-radius: 10px;
+
+        box-shadow: 20px 20px #830396;
+    }   
+    @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+    }
+        
+    </style>
+    
+    <img id="clock-ring" src="images/clock-ringing.png" 
+     alt="Clock Ringing" 
+     style="visibility:hidden; width:100px; margin-top:20px; margin-left:1050px;">
+
+
+    <img class="pi" src="images/PI.png" >
+
 
 </div>
 
 
     <script src="app.js"></script>
+
+    <!-- JS for speech bubble -->
 
 </body>
 </html>
