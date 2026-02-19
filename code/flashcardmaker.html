@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard Creator</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./flashcards.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-layer-group"></i>
+                <span>My Flashcards</span>
+            </div>
+            <button id="studyAllBtn" class="btn btn-primary">
+                <i class="fas fa-graduation-cap"></i> Study All
+            </button>
+        </header>
+
+        <div class="main-content">
+            <div class="flashcard-form">
+                <h2>Create New Flashcard</h2>
+                <div class="form-group">
+                    <label for="flashcardTitle">Title</label>
+                    <input type="text" id="flashcardTitle" class="form-control" placeholder="Enter title...">
+                </div>
+                <div class="form-group">
+                    <label for="flashcardFront">Front Content</label>
+                    <textarea id="flashcardFront" class="form-control" placeholder="Enter front content..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="flashcardBack">Back Content</label>
+                    <textarea id="flashcardBack" class="form-control" placeholder="Enter back content..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="flashcardTags">Tags (comma separated)</label>
+                    <input type="text" id="flashcardTags" class="form-control" placeholder="e.g., math, science, history">
+                </div>
+                <div class="form-actions">
+                    <button id="saveFlashcardBtn" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                    <button id="clearFormBtn" class="btn btn-outline">
+                        <i class="fas fa-eraser"></i> Clear
+                    </button>
+                </div>
+            </div>
+
+            <div class="flashcards-section">
+                <div class="actions-bar">
+                    <div class="stats" id="statsDisplay">0 flashcards</div>
+                    <div class="import-export">
+                        <div class = "tooltip">
+                        <button id="importBtn" class="btn btn-outline" style="padding: 0.5rem;">
+                            <i class="fas fa-file-import"></i>
+                        </button>
+                        
+                        
+                        <button id="exportBtn" class="btn btn-outline" style="padding: 0.5rem;">
+                            <i class="fas fa-file-export"></i>
+                        </button>
+                        <span class="tooltiptext">Import and Export Flashcards</span>
+                        </div>
+                        <input type="file" id="importFile" style="display: none;" accept=".json">
+                    </div>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search flashcards...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+
+                <div class="tag-filter" id="tagFilter">
+                    <!-- Tags will be added here dynamically -->
+                </div>
+
+                <div class="flashcards-container" id="flashcardsContainer">
+                    <div class="empty-state">
+                        <i class="fas fa-layer-group"></i>
+                        <h3>No Flashcards Yet</h3>
+                        <p>Create your first flashcard to get started!</p>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Create Flashcard
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Study Mode Modal -->
+    <div class="study-mode" id="studyMode">
+        <div class="study-card" id="studyCard">
+            <button class="close-study" id="closeStudy">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="progress-indicator" id="progressIndicator">1/10</div>
+            <div class="study-card-front">
+                <h2 id="studyFrontTitle">Front Title</h2>
+                <p id="studyFrontContent">Front content goes here...</p>
+                <button class="btn btn-primary" id="flipStudyCardBtn">
+                    <i class="fas fa-redo"></i> Flip Card
+                </button>
+            </div>
+            <div class="study-card-back">
+                <h2>Answer</h2>
+                <p id="studyBackContent">Back content goes here...</p>
+                <div class="study-nav">
+                    <button class="btn btn-outline" id="prevCardBtn">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <div>
+                        <button class="btn btn-primary" id="nextCardBtn">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="./flashcardscript.js"></script>
+</body>
+</html>
