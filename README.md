@@ -32,7 +32,7 @@ You can select from a range of audiences or a single auidience. Examples:
 * <b>Difficulty Level:</b> Beginner/Intermediate 
 * <b>Target Audience:</b> Middle School - College
 * <b>Duration of Workshop:</b> 20 - 25 min 
-* <b>Needed Materials:</b> Materials needed to do your workshop (computer with keyboard, sphero, etc.)
+* <b>Needed Materials:</b> Keyboard, mouse, computer
 * <b>Learning Outcomes:</b> The primary goal of this project is to teach participants how genertive chat bots are created and how to train data.
 * <b>Your Main Technology</b> Name of Technology and then a brief descriptor. You will go more in depth on the technology used in a different section. 
 * [Technology Ambassador Program](https://tapggc.org/) <b>(TAP)</b> is a project-based class that provides a collaborative environment for students to work with their fellow classmates on a semester-long project using technologies of their choice. TAP strives to increase participation in IT through numerous outreach activities and workshops that are designed to showcase the creative and fun side of technology.
@@ -45,9 +45,9 @@ You can select from a range of audiences or a single auidience. Examples:
 ## :pencil2: Team: Pi&AI
 
 <!-- Use the team photo of your choice once youve uploaded it to the team photo folder within the media folder -->
-<img alt="art featuring batman, wonder woman, and superman" src = "media/team photos/Team Photo.JPG" width="" height="300">
+<img alt="PI&AI Team" src = "media/team photos/IMG_8691.jpeg" width="" height="400">
 
-> (From left to right: Batman,  Wonder Woman, Superman.)
+> (From left to right: Kyla, Keyvaun, Lorena.)
 <!-- replace with full names of your team members -->
 
 * Keyvaun Herring
@@ -72,13 +72,11 @@ A more thorough description of your project. Not a full walkthrough, but describ
 
 Example:
 
-1. <b>TAP Expo</b>, April 1, 2021, Georgia Gwinnett College: to promote the IT field and encourage college students to sign up for TAP.
+<!-- 1. <b>TAP Expo</b>, April 1, 2021, Georgia Gwinnett College: to promote the IT field and encourage college students to sign up for TAP.
 2. <b>Class Workshops</b>, April 13-15, 2021, Georgia Gwinnett College: to promote the IT field to non-IT students.
-
+-->
 ## :mag_right: Similar Projects
-<i>Use this section to link to a project done in the TAP program that is related in some way to your own. This can be a sister project done during your TAP semester or a TAP project done in the past. Example: </i> 
-
-If you're interested in more workshops that utilize Scratch, check out [Space Mechanic](https://github.com/TAP-GGC/NinjaTurtles)!
+If you're interested projects that utilize AI, check out AIDiva(https://github.com/TAP-GGC/AiDiva)!
 
 ## :computer: Technology
 
@@ -88,11 +86,9 @@ Python, Scikit-Learn-->
   <img alt="Scratch Logo" src = "media/technology/scratch logo.png" width="200" height="200"/>
 </p>
 
-* [Python]([https://scratch.mit.edu/](https://www.python.org/)) is a block-based programming language developed by the MIT Media Lab as an education tool for children to learn computing in a fun and interactive way.
-* Scratch has drag-and-drop interfaces. Unlike text-based programming language like Java or C where you physically type every line of code, in Scratch, you can drag and drop pre-made codes and organize them into an algorithm. It's like solving a jigsaw puzzle!
-* Explain why your team chose this technology for this workshop.
-* [Scikit-Learn]([https://scratch.mit.edu/](https://scikit-learn.org/stable/)) is a block-based programming language developed by the MIT Media Lab as an education tool for children to learn computing in a fun and interactive way.
-* Scratch has drag-and-drop interfaces. Unlike text-based programming language like Java or C where you physically type every line of code, in Scratch, you can drag and drop pre-made codes and organize them into an algorithm. It's like solving a jigsaw puzzle!
+* [Python]((https://www.python.org/)) is a high level programming language designed to be easily readable and debuggable, and is one of the most widely used programming languages to build website, software, automate tasks, and analyse data.
+* Python was used to train our AI model and similarly acts in the workshop to demonstrate how students can train data to create their own.
+* [Scikit-Learn]((https://scikit-learn.org/stable/)) 
 
 <p align="center">
 <img src = "media/technology/block-based language.png" width ="400" height="200">
@@ -103,17 +99,10 @@ Python, Scikit-Learn-->
 
 Your repo doesn't have to have every section used below. This is just an example so you can get an idea of what your own repo should look like</i>
 
-### Opening a blank Scratch page 
+### Interact with website link 
 [Click here to view instructions](/documents/tutorial%20materials/Opening%20a%20blank%20Scratch%20page.md)
 
 [Video with Scratch instructions](https://youtu.be/v-GUbj7DMEE)
-
-<!-- if your project uses scratch, you can reuse any of these instructions (be sure to include CS First alternatives) -->
-## CS First Installation Walkthrough
-[Click here to view instructions](/documents/tutorial%20materials/CS%20FIRST/CS%20First%20Walkthrough.md)
-
-### Getting to the game 
-[Click here to view instructions](/documents/tutorial%20materials/Getting%20to%20the%20Game.md)
 
 ## Short Demo Instructions 
 [Demo Video on how to install and play our game](https://youtu.be/mA80Aa55t-U)
