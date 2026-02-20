@@ -580,60 +580,10 @@
             const messageInput = document.getElementById('messageInput');
             const sendButton = document.getElementById('sendButton');
             const particlesContainer = document.getElementById('particles');
-            
-            // Animation delay times
-            const TYPING_DELAY = 1000;
-            const MESSAGE_DELAY = 1000;
-            
-            // Conversation flow
-            let currentStep = 0;
-            const progress = [0, 20, 40, 60, 80, 100];
-            
-            // Tutorial conversation
-            const tutorialFlow = [
-                {
-                    type: 'tutor',
-                    content: 'Welcome to your Math Tutor! 🧠✨ Today we\'ll solve equations together. Readyto dive in?'
-                },
-                {
-                    type: 'options',
-                    question: 'Solve: 3x + 5 = 20',
-                    options: [
-                        { text: 'x = 5', correct: true },
-                        { text: 'x = 15', correct: false },
-                        { text: 'x = 25', correct: false },
-                        { text: 'x = 10', correct: false }
-                    ],
-                    feedback: {
-                        correct: 'Correct! Subtract 5 from both sides: 3x = 15, then divide by 3.',
-                        incorrect: 'Not quite. First subtract 5 from both sides, then divide by 3.'
-                    },
-                    hint: 'Try isolating x by removing 5 first.'
-                },
-                {
-                    type: 'tutor',
-                    content: 'Great! Let’s try something slightly harder 🔥'
-                },
-                {
-                    type: 'options',
-                    question: 'What is the derivative of x²?',
-                    options: [
-                        { text: '2x', correct: true },
-                        { text: 'x', correct: false },
-                        { text: 'x³', correct: false },
-                        { text: '2', correct: false }
-                    ],
-                    feedback: {
-                        correct: 'Yes! The power rule says bring the exponent down and subtract 1.',
-                        incorrect: 'Remember the power rule: d/dx (xⁿ) = n·xⁿ⁻¹'
-                    },
-                    hint: 'Use the power rule.'
-                },
-                {
-                    type: 'tutor',
-                    content: 'Awesome work! 🎉 You\'re building real math skills!'
-                }
-            ];
+
+            const API_URL = 'http://127.0.0.1:5000/api/chat';
+            let chatHistory = [];
+            let isSending = false;
             
             // Create particles for background effect
             function createParticles() {
