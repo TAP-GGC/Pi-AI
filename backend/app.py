@@ -1,16 +1,27 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 import google.generativeai as genai
 
 load_dotenv()
 
-app = Flask(__name__)
+# Serve frontend files from the code/ directory
+app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), '..', 'code'))
 CORS(app)
 
+
+@app.route('/')
+def index():
+    return send_from_directory(app.static_folder, 'firstPage.html')
+
+
+@app.route('/<path:filename>')
+def serve_frontend(filename):
+    return send_from_directory(app.static_folder, filename)
+
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel("gemini-2.0-flash")
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 SYSTEM_PROMPT = (
     "You are Pi, a friendly and encouraging math study assistant. "
