@@ -4,15 +4,15 @@
 <p align="center">
   <img alt="Template Logo" src="media/logos/Pi-Transparent.png" width="" height="250" />
   <h1 align="center">Pi&AI</h1>
-  <p align="center">A project for students to enrich their study experience in mathematics by team Pi # </p>
+  <p align="center">A project for students to enrich their study experience in mathematics by team Pi Sharp </p>
 </p>
 <!-- the emojis are not set in stone! If you'd like you can remove them entirely or select your own from https://gist.github.com/rxaviers/7360908 you are welcome to -->
 
 ## :loudspeaker: About
-The objective of the workshop is to get students motivated to create their own generative ai models by demonstrating how we created a SLM study assistant.
+The objective of the workshop is to get students motivated to create their own generative ai models by demonstrating how we created a SLM study assistant and interactable interface.
 <!-- You can look at other TAP projects if you need a better idea of how to describe your workshops objectives -->
 
-This workshop has participants do ...
+This workshop has participants learn about data training works with small language models and give a demonstration on how they can create their own step by step.
 
 ## :bulb: Project Information
 <!-- 
@@ -88,7 +88,8 @@ Python, Scikit-Learn-->
 
 * [Python]((https://www.python.org/)) is a high level programming language designed to be easily readable and debuggable, and is one of the most widely used programming languages to build website, software, automate tasks, and analyse data.
 * Python was used to train our AI model and similarly acts in the workshop to demonstrate how students can train data to create their own.
-* [Scikit-Learn]((https://scikit-learn.org/stable/)) 
+* [Scikit-Learn]((https://scikit-learn.org/stable/)) is an opensource Python library that supports both supervised and unsupervised learning.
+* HTML, CSS, JavaScript
 
 <p align="center">
 <img src = "media/technology/block-based language.png" width ="400" height="200">
