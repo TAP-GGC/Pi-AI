@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const importFile = document.getElementById('importFile');
     const statsDisplay = document.getElementById('statsDisplay');
     const toast = document.getElementById('toast');
+    const generateWithAIBtn = document.getElementById('generateWithAIBtn');
+    const aiLoading = document.getElementById('aiLoading');
 
     // State
     let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
@@ -46,8 +48,61 @@ document.addEventListener('DOMContentLoaded', function() {
     importBtn.addEventListener('click', () => importFile.click());
     exportBtn.addEventListener('click', exportFlashcards);
     importFile.addEventListener('change', importFlashcards);
+    generateWithAIBtn.addEventListener('click', generateWithAI);
 
     // Functions
+    async function generateWithAI() {
+        const topic = document.getElementById('aiTopic').value.trim();
+        const count = parseInt(document.getElementById('aiCount').value, 10);
+
+        if (!topic) {
+            showToast('Please enter a topic', 'error');
+            return;
+        }
+
+        generateWithAIBtn.disabled = true;
+        aiLoading.style.display = 'block';
+
+        try {
+            const res = await fetch('http://127.0.0.1:5000/api/generate-flashcards', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ topic, count })
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.error || 'Server error');
+            }
+
+            const data = await res.json();
+            const generated = data.flashcards;
+
+            generated.forEach(card => {
+                flashcards.push({
+                    id: Date.now().toString() + Math.random().toString(36).slice(2),
+                    title: card.title,
+                    front: card.front,
+                    back: card.back,
+                    tags: Array.isArray(card.tags) ? card.tags : [],
+                    createdAt: new Date().toISOString()
+                });
+            });
+
+            saveToLocalStorage();
+            updateFlashcardsDisplay();
+            updateTagFilter();
+            document.getElementById('aiTopic').value = '';
+            showToast(`Generated ${generated.length} flashcards!`, 'success');
+        } catch (err) {
+            showToast('Failed to generate flashcards: ' + err.message, 'error');
+            console.error(err);
+        } finally {
+            generateWithAIBtn.disabled = false;
+            aiLoading.style.display = 'none';
+        }
+    }
+
     function saveFlashcard() {
         const title = document.getElementById('flashcardTitle').value.trim();
         const front = document.getElementById('flashcardFront').value.trim();

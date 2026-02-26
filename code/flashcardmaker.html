@@ -23,6 +23,31 @@
         <div class="main-content">
             <div class="flashcard-form">
                 <h2>Create New Flashcard</h2>
+
+                <div class="ai-generate-section">
+                    <h3><i class="fas fa-robot"></i> Generate with Pi</h3>
+                    <div class="form-group">
+                        <label for="aiTopic">Math Topic</label>
+                        <input type="text" id="aiTopic" class="form-control" placeholder="e.g., quadratic equations, derivatives...">
+                    </div>
+                    <div class="form-group">
+                        <label for="aiCount">Number of Cards</label>
+                        <select id="aiCount" class="form-control">
+                            <option value="3">3</option>
+                            <option value="5" selected>5</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                    <button id="generateWithAIBtn" class="btn btn-primary">
+                        <i class="fas fa-magic"></i> Generate with Pi
+                    </button>
+                    <div id="aiLoading" style="display:none; margin-top: 0.5rem; color: var(--primary);">
+                        <i class="fas fa-spinner fa-spin"></i> Generating flashcards...
+                    </div>
+                </div>
+
+                <hr style="margin: 1.5rem 0; border-color: var(--border);">
+
                 <div class="form-group">
                     <label for="flashcardTitle">Title</label>
                     <input type="text" id="flashcardTitle" class="form-control" placeholder="Enter title...">
