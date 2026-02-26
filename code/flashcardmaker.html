@@ -4,22 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcard Creator</title>
-        <link href = "images/Pi-Transparent.png" rel="icon" type="image/x-icon">
+    <link href = "images/Pi-Transparent.png" rel="icon" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./flashcards.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fas fa-layer-group"></i>
-                <span>My Flashcards</span>
+<div class="window">
+
+    <!-- Top Bar -->
+    <div class="title-bar">
+        <span>Pi&AI</span>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <a href="firstPage.html" style="color:white; text-decoration:none; font-size:14px; padding-left: 5px;">Home</a>
+            <a href="chatInterface.html" style="color:white; text-decoration:none; font-size:14px; padding-left: 5px;">Chat Tutorial</a>
+            <a href="flashcardmaker.html" style="color:white; text-decoration:none; font-size:14px; padding-left: 5px;">Flashcards</a>
+            <div class="window-buttons">
+                <div class="btn">—</div>
+                <div class="btn">☐</div>
+                <div class="btn">✕</div>
             </div>
-            <button id="studyAllBtn" class="btn btn-primary">
-                <i class="fas fa-graduation-cap"></i> Study All
-            </button>
-        </header>
+        </div>
+    </div>
+
+    <div class="container">
 
         <div class="main-content">
             <div class="flashcard-form">
