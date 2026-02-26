@@ -545,6 +545,7 @@
         .message.interactive:hover {
             transform: scale(1.02);
         }
+
     </style>
 </head>
 <body>
@@ -652,6 +653,21 @@
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
 
+            function saveFlashcardsToStorage(cards) {
+                const existing = JSON.parse(localStorage.getItem('flashcards')) || [];
+                cards.forEach(card => {
+                    existing.push({
+                        id: Date.now().toString() + Math.random().toString(36).slice(2),
+                        title: card.title,
+                        front: card.front,
+                        back: card.back,
+                        tags: Array.isArray(card.tags) ? card.tags : [],
+                        createdAt: new Date().toISOString()
+                    });
+                });
+                localStorage.setItem('flashcards', JSON.stringify(existing));
+            }
+
             async function sendMessage() {
                 const message = messageInput.value.trim();
                 if (!message || isSending) return;
@@ -676,6 +692,9 @@
 
                     if (data.error) {
                         addMessage('tutor', 'Sorry, something went wrong. Please try again.');
+                    } else if (data.flashcards && data.flashcards.length > 0) {
+                        saveFlashcardsToStorage(data.flashcards);
+                        addMessage('tutor', `Done! ${data.flashcards.length} flashcards added to your collection.`);
                     } else {
                         addMessage('tutor', data.response);
                         chatHistory.push({ role: 'assistant', content: data.response });
