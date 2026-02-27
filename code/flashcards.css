@@ -30,6 +30,7 @@ body {
     margin: 0 auto;
     padding: 2rem;
 }
+/* Main Window - Full Screen */
 .window {
     width: 100vw;
     height: 100vh;
@@ -37,6 +38,36 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+}
+
+/* Title Bar Timer */
+.title-bar {
+    background: linear-gradient(to right, rgb(122, 0, 128), rgb(234, 0, 255));
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Window Buttons */
+.window-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.bar-btn {
+    background: rgb(255, 255, 255);
+    color: black;
+    width: 28px;
+    height: 28px;
+    text-align: center;
+    line-height: 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 header {
