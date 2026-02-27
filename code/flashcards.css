@@ -37,7 +37,7 @@ body {
     background: #efccf6;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: auto;
 }
 
 /* Title Bar Timer */
