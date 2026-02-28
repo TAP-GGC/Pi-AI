@@ -669,6 +669,53 @@
                 localStorage.setItem('flashcards', JSON.stringify(existing));
             }
 
+            function handleFlashcardDelete(message) {
+                const lower = message.toLowerCase();
+                const flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
+
+                // Clear all flashcards
+                if (/\b(clear|delete|remove)\s+(all|every)\s*(flash\s*cards?|cards?)/.test(lower) ||
+                    /\b(clear|reset)\s*(my\s*)?(flash\s*cards?|card\s*collection)/.test(lower)) {
+                    if (flashcards.length === 0) {
+                        addMessage('tutor', 'You don\'t have any flashcards to clear.');
+                        return true;
+                    }
+                    const count = flashcards.length;
+                    localStorage.setItem('flashcards', JSON.stringify([]));
+                    addMessage('tutor', `Done! Cleared all ${count} flashcards from your collection.`);
+                    return true;
+                }
+
+                // Delete specific flashcard(s) by title/topic keyword
+                const specificMatch = lower.match(/\b(?:clear|delete|remove)\s+(?:the\s+)?(?:flash\s*cards?|cards?)\s+(?:about|on|for|called|named|titled)\s+(.+?)(?:\s*[?!.]?\s*$)/);
+                if (specificMatch) {
+                    const keyword = specificMatch[1].trim().toLowerCase();
+                    const remaining = [];
+                    const removed = [];
+                    flashcards.forEach(card => {
+                        const matchesTitle = card.title && card.title.toLowerCase().includes(keyword);
+                        const matchesFront = card.front && card.front.toLowerCase().includes(keyword);
+                        const matchesTags = card.tags && card.tags.some(t => t.toLowerCase().includes(keyword));
+                        if (matchesTitle || matchesFront || matchesTags) {
+                            removed.push(card);
+                        } else {
+                            remaining.push(card);
+                        }
+                    });
+
+                    if (removed.length === 0) {
+                        addMessage('tutor', `I couldn't find any flashcards matching "${keyword}". <a href="flashcardmaker.html" style="color: #00ffff; text-decoration: underline;">View your flashcards</a> to see what you have.`);
+                        return true;
+                    }
+
+                    localStorage.setItem('flashcards', JSON.stringify(remaining));
+                    addMessage('tutor', `Done! Removed ${removed.length} flashcard${removed.length > 1 ? 's' : ''} matching "${keyword}". You have ${remaining.length} card${remaining.length !== 1 ? 's' : ''} remaining.`);
+                    return true;
+                }
+
+                return false;
+            }
+
             async function sendMessage() {
                 const message = messageInput.value.trim();
                 if (!message || isSending) return;
@@ -679,6 +726,14 @@
 
                 addMessage('user', message);
                 chatHistory.push({ role: 'user', content: message });
+
+                // Handle flashcard delete/clear commands locally
+                if (handleFlashcardDelete(message)) {
+                    isSending = false;
+                    sendButton.disabled = false;
+                    messageInput.focus();
+                    return;
+                }
 
                 showTypingIndicator();
 
