@@ -649,7 +649,7 @@
                 hideTypingIndicator();
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${type}`;
-                messageDiv.textContent = content;
+                messageDiv.innerHTML = content;
                 chatMessages.appendChild(messageDiv);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
@@ -695,7 +695,7 @@
                         addMessage('tutor', 'Sorry, something went wrong. Please try again.');
                     } else if (data.flashcards && data.flashcards.length > 0) {
                         saveFlashcardsToStorage(data.flashcards);
-                        addMessage('tutor', `Done! ${data.flashcards.length} flashcards added to your collection.`);
+                        addMessage('tutor', `Done! ${data.flashcards.length} flashcards added to your collection. <a href="flashcardmaker.html" style="color: #00ffff; text-decoration: underline;">View your flashcards</a>`);
                     } else {
                         addMessage('tutor', data.response);
                         chatHistory.push({ role: 'assistant', content: data.response });
