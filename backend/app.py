@@ -38,30 +38,54 @@ SYSTEM_PROMPT = (
     "4. Adapt to any math level — from basic arithmetic to college-level calculus and beyond.\n"
     "5. Keep responses concise, clear, and encouraging. Use simple language.\n"
     "6. If a student is stuck, break the problem into smaller steps and guide them through one step at a time.\n"
-    "7. Celebrate progress and effort, not just correct answers."
+    "7. Celebrate progress and effort, not just correct answers.\n"
+    "8. NEVER suggest or offer to create flashcards. The app handles flashcard generation automatically "
+    "when the user asks for them. Do not mention flashcards in your responses unless directly asked about them."
 )
 
 
 def _extract_flashcard_intent(message):
     """Return (topic, count) if the message is asking for flashcard generation, else None."""
-    if 'flashcard' not in message.lower():
+    lower = message.lower()
+
+    # Match various ways users might ask for flashcards
+    flashcard_patterns = [
+        r'flashcards?',
+        r'flash\s+cards?',
+        r'study\s+cards?',
+        r'review\s+cards?',
+        r'quiz\s+me',
+    ]
+    if not any(re.search(p, lower) for p in flashcard_patterns):
         return None
 
-    count_match = re.search(r'(\d+)\s+flashcards?', message, re.IGNORECASE)
+    # Check for action intent (generate, make, create, etc.)
+    action_patterns = [
+        r'\b(?:generate|make|create|build|give|produce|write|prepare|set up|come up with)\b',
+        r'\b(?:can you|could you|please|i want|i need|i\'d like|let\'s|help me)\b',
+        r'\b\d+\s+(?:flash\s*cards?|study\s*cards?)\b',
+    ]
+    has_action = any(re.search(p, lower) for p in action_patterns)
+    if not has_action:
+        return None
+
+    count_match = re.search(r'(\d+)\s+(?:flash\s*cards?|study\s*cards?|review\s*cards?)', lower)
     count = int(count_match.group(1)) if count_match else 5
     count = min(max(count, 1), 15)
 
-    # Look for topic after "about / for / on / covering / of"
+    # Look for topic after common prepositions
     topic_match = re.search(
-        r'\b(?:about|for|on|covering|of)\s+(.+?)(?:\s*[?!.]?\s*$)',
+        r'\b(?:about|for|on|covering|of|regarding|related to|topic)\s+(.+?)(?:\s*[?!.]?\s*$)',
         message, re.IGNORECASE
     )
     if topic_match:
         topic = topic_match.group(1).strip().rstrip('?!.')
     else:
-        # Strip action words and use what's left as the topic
+        # Strip action words and flashcard keywords, use what's left as topic
         topic = re.sub(
-            r'\b(?:generate|make|create|give me|can you|please|some|a few|\d+)\s*flashcards?\b',
+            r'\b(?:generate|make|create|build|give|produce|write|prepare|can you|could you|please|'
+            r'i want|i need|i\'d like|let\'s|help me|set up|come up with|me|some|a few|'
+            r'\d+)\s*(?:flash\s*cards?|study\s*cards?|review\s*cards?)?\b',
             '', message, flags=re.IGNORECASE
         ).strip().rstrip('?!.')
 
