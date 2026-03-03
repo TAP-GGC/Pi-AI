@@ -42,57 +42,49 @@ SYSTEM_PROMPT = (
     "5. Keep responses concise, clear, and encouraging. Use simple language.\n"
     "6. If a student is stuck, break the problem into smaller steps and guide them through one step at a time.\n"
     "7. Celebrate progress and effort, not just correct answers.\n"
-    "8. NEVER suggest or offer to create flashcards. The app handles flashcard generation automatically "
-    "when the user asks for them. Do not mention flashcards in your responses unless directly asked about them."
+    "8. When a user asks about or discusses a topic, end your response with a short suggestion to generate flashcards on it. "
+    "For example: 'Want me to generate some flashcards on [topic] to help you study?' Keep the suggestion brief and natural."
 )
 
 
-def _extract_flashcard_intent(message):
-    """Return (topic, count) if the message is asking for flashcard generation, else None."""
-    lower = message.lower()
+def _extract_flashcard_intent(message, history=None):
+    """Use Gemini to classify if the message is requesting flashcard generation.
+    Returns (topic, count) if it is, else None."""
+    context = ""
+    if history:
+        recent = history[-6:]  # last 3 exchanges
+        context = "Recent conversation:\n"
+        for entry in recent:
+            role = "User" if entry["role"] == "user" else "Assistant"
+            context += f"{role}: {entry['content']}\n"
+        context += "\n"
 
-    # Match various ways users might ask for flashcards
-    flashcard_patterns = [
-        r'flashcards?',
-        r'flash\s+cards?',
-        r'study\s+cards?',
-        r'review\s+cards?',
-        r'quiz\s+me',
-    ]
-    if not any(re.search(p, lower) for p in flashcard_patterns):
-        return None
-
-    # Check for action intent (generate, make, create, etc.)
-    action_patterns = [
-        r'\b(?:generate|make|create|build|give|produce|write|prepare|set up|come up with)\b',
-        r'\b(?:can you|could you|please|i want|i need|i\'d like|let\'s|help me)\b',
-        r'\b\d+\s+(?:flash\s*cards?|study\s*cards?)\b',
-    ]
-    has_action = any(re.search(p, lower) for p in action_patterns)
-    if not has_action:
-        return None
-
-    count_match = re.search(r'(\d+)\s+(?:flash\s*cards?|study\s*cards?|review\s*cards?)', lower)
-    count = int(count_match.group(1)) if count_match else 5
-    count = min(max(count, 1), 15)
-
-    # Look for topic after common prepositions
-    topic_match = re.search(
-        r'\b(?:about|for|on|covering|of|regarding|related to|topic)\s+(.+?)(?:\s*[?!.]?\s*$)',
-        message, re.IGNORECASE
+    prompt = (
+        "Determine if the following user message is requesting flashcard generation. "
+        "Use the conversation context to resolve any vague references like 'it', 'that topic', 'this', etc.\n"
+        "Return ONLY valid JSON with no extra text, markdown, or code fences.\n"
+        "Fields:\n"
+        "  \"is_request\": true if the user wants flashcards generated, false otherwise\n"
+        "  \"topic\": the fully resolved subject for the flashcards as a string, or null if not a request\n"
+        "  \"count\": number of flashcards requested as an integer (default 5, max 15), or null\n\n"
+        f"{context}Message: \"{message}\""
     )
-    if topic_match:
-        topic = topic_match.group(1).strip().rstrip('?!.')
-    else:
-        # Strip action words and flashcard keywords, use what's left as topic
-        topic = re.sub(
-            r'\b(?:generate|make|create|build|give|produce|write|prepare|can you|could you|please|'
-            r'i want|i need|i\'d like|let\'s|help me|set up|come up with|me|some|a few|'
-            r'\d+)\s*(?:flash\s*cards?|study\s*cards?|review\s*cards?)?\b',
-         '', message, flags=re.IGNORECASE
-        ).strip().rstrip('?!.')
-
-    return (topic, count) if topic and len(topic) > 1 else None
+    try:
+        response = client.models.generate_content(model=MODEL, contents=prompt)
+        text = response.text.strip()
+        json_match = re.search(r'\{[\s\S]*\}', text)
+        if not json_match:
+            return None
+        data = json.loads(json_match.group(0))
+        if not data.get("is_request"):
+            return None
+        topic = data.get("topic")
+        count = int(data.get("count") or 5)
+        count = min(max(count, 1), 15)
+        return (topic, count) if topic and len(str(topic)) > 1 else None
+    except Exception as e:
+        print(f"[flashcard intent classification error] {e}")
+        return None
 
 
 def _build_flashcards(topic, count):
@@ -104,8 +96,7 @@ def _build_flashcards(topic, count):
         "  \"title\": short descriptive title\n"
         "  \"front\": a clear question or concept prompt\n"
         "  \"back\": a concise, accurate answer or explanation\n"
-        "  \"tags\": an array of 1-3 relevant tag strings\n"
-        "Example: [{\"title\":\"...\",\"front\":\"...\",\"back\":\"...\",\"tags\":[\"...\"]}]"
+        "Example: [{\"title\":\"...\",\"front\":\"...\",\"back\":\"...\"}]"
     )
     response = client.models.generate_content(model=MODEL, contents=prompt)
     text = response.text.strip()
@@ -115,7 +106,14 @@ def _build_flashcards(topic, count):
     if not json_match:
         raise ValueError(f"No JSON array found in Gemini response: {text[:200]}")
     cards = json.loads(json_match.group(0))
-    return cards if isinstance(cards, list) else []
+    if not isinstance(cards, list):
+        return []
+
+    # Assign a single shared tag for the batch based on the generation topic
+    tag = topic.strip().title()
+    for card in cards:
+        card['tags'] = [tag]
+    return cards
 
 
 @app.route("/api/generate-flashcards", methods=["POST"])
@@ -159,7 +157,7 @@ def chat():
     contents.append(types.Content(role="user", parts=[types.Part(text=user_message)]))
 
     # Detect flashcard generation intent
-    intent = _extract_flashcard_intent(user_message)
+    intent = _extract_flashcard_intent(user_message, history)
     if intent:
         topic, count = intent
         try:
