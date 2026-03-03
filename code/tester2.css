@@ -165,10 +165,18 @@ hr{
     border: none;
 }
 
+.brain{
+  
+   margin-left: 800px;
+   width: 15%;
+}
+
 .pi{
     display: block;
     margin: 0 auto;
     width: 25%;
+    position: relative;
+    top: -50px;  /* moves DOWN */
 }
 
 .button-wrapper{
