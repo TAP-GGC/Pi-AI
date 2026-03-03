@@ -600,6 +600,7 @@
                     if (savedDisplay) {
                         const msgs = JSON.parse(savedDisplay);
                         if (msgs && msgs.length > 0) {
+                            displayHistory = msgs;
                             msgs.forEach(msg => addMessage(msg.type, msg.content, true));
                             return true;
                         }
@@ -821,7 +822,7 @@
                 localStorage.removeItem(CHAT_STORAGE_KEY);
                 localStorage.removeItem(DISPLAY_STORAGE_KEY);
                 chatMessages.innerHTML = '';
-                addMessage('tutor', "Hi! I'm <strong>Pi</strong> — your AI-powered tech study assistant.<br><br><strong>What I cover:</strong><br>&bull; Programming languages &amp; algorithms<br>&bull; Data structures &amp; computer science fundamentals<br>&bull; Networking, cybersecurity &amp; operating systems<br>&bull; Web development, databases &amp; software engineering<br><br><strong>Generative capabilities:</strong><br>&bull; <strong>Flashcard generation</strong> — say <em>&quot;make me flashcards on [topic]&quot;</em> and I'll instantly build a study set<br>&bull; <strong>Flashcard management</strong> — tell me to <em>&quot;delete flashcards on [topic]&quot;</em> to clean up your collection<br><br>I guide you through concepts step by step without just handing you the answer. Ask me anything tech-related to get started!");
+                addMessage('tutor', "Hi! I'm <strong>Pi</strong> — your AI-powered tech study assistant.<br><br><strong>What I cover:</strong><br>&bull; Programming languages &amp; algorithms<br>&bull; Data structures &amp; computer science fundamentals<br>&bull; Networking, cybersecurity &amp; operating systems<br>&bull; Web development, databases &amp; software engineering<br><br><strong>Generative capabilities:</strong><br>&bull; <strong>Flashcard generation</strong> — say <em>&quot;make me flashcards on [topic]&quot;</em> and I'll instantly build a study set<br>&bull; <strong>Flashcard management</strong> — tell me to <em>&quot;delete flashcards on [topic]&quot;</em> to clean up your collection<br><br>Ask me anything tech-related to get started!");
             });
 
             // Send button click
@@ -839,7 +840,7 @@
             createParticles();
             const hasHistory = loadChatState();
             if (!hasHistory) {
-                addMessage('tutor', "Hi! I'm <strong>Pi</strong> — your AI-powered tech study assistant.<br><br><strong>What I cover:</strong><br>&bull; Programming languages &amp; algorithms<br>&bull; Data structures &amp; computer science fundamentals<br>&bull; Networking, cybersecurity &amp; operating systems<br>&bull; Web development, databases &amp; software engineering<br><br><strong>Generative capabilities:</strong><br>&bull; <strong>Flashcard generation</strong> — say <em>&quot;make me flashcards on [topic]&quot;</em> and I'll instantly build a study set<br>&bull; <strong>Flashcard management</strong> — tell me to <em>&quot;delete flashcards on [topic]&quot;</em> to clean up your collection<br><br>I guide you through concepts step by step without just handing you the answer. Ask me anything tech-related to get started!");
+                addMessage('tutor', "Hi! I'm <strong>Pi</strong> — your AI-powered tech study assistant.<br><br><strong>What I cover:</strong><br>&bull; Programming languages &amp; algorithms<br>&bull; Data structures &amp; computer science fundamentals<br>&bull; Networking, cybersecurity &amp; operating systems<br>&bull; Web development, databases &amp; software engineering<br><br><strong>Generative capabilities:</strong><br>&bull; <strong>Flashcard generation</strong> — say <em>&quot;make me flashcards on [topic]&quot;</em> and I'll instantly build a study set<br>&bull; <strong>Flashcard management</strong> — tell me to <em>&quot;delete flashcards on [topic]&quot;</em> to clean up your collection<br><br>Ask me anything tech-related to get started!");
             }
         });
     </script>
