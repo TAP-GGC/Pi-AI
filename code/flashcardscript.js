@@ -331,12 +331,24 @@ document.addEventListener('DOMContentLoaded', function() {
         updateFlashcardsDisplay();
     }
 
+    const TECH_CATEGORIES = [
+        'Programming', 'Algorithms', 'Data Structures', 'Networking',
+        'Cybersecurity', 'Web Development', 'Databases', 'Operating Systems',
+        'Software Engineering'
+    ];
+
     function updateTagFilter() {
-        // Get all unique tags
-        const allTags = new Set();
+        // Collect all unique tags from existing cards
+        const cardTags = new Set();
         flashcards.forEach(card => {
-            card.tags.forEach(tag => allTags.add(tag));
+            card.tags.forEach(tag => cardTags.add(tag));
         });
+
+        // Build ordered list: predefined tech categories first, then any custom tags not in the list
+        const orderedTags = [
+            ...TECH_CATEGORIES.filter(cat => cardTags.has(cat)),
+            ...Array.from(cardTags).filter(tag => !TECH_CATEGORIES.includes(tag)).sort()
+        ];
 
         tagFilter.innerHTML = '';
 
@@ -351,8 +363,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         tagFilter.appendChild(allButton);
 
-        // Add tag buttons
-        Array.from(allTags).sort().forEach(tag => {
+        // Add tag buttons in tech-subject order
+        orderedTags.forEach(tag => {
             const tagButton = document.createElement('button');
             tagButton.textContent = tag;
             tagButton.className = activeTagFilter === tag ? 'active' : '';
@@ -366,13 +378,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateTagFilterButtons() {
-        const buttons = tagFilter.querySelectorAll('button');
-        buttons.forEach(button => {
-            button.classList.remove('active');
-            if ((!activeTagFilter && button.textContent === 'All') || 
-                (button.textContent === activeTagFilter)) {
-                button.classList.add('active');
-            }
+        tagFilter.querySelectorAll('button').forEach(button => {
+            button.classList.toggle('active',
+                (!activeTagFilter && button.textContent === 'All') ||
+                button.textContent === activeTagFilter
+            );
         });
     }
 

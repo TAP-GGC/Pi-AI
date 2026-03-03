@@ -27,15 +27,18 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 MODEL = "gemini-2.5-flash"
 
 SYSTEM_PROMPT = (
-    "You are Pi, a friendly and encouraging math study assistant. "
-    "Your goal is to help students truly understand math — never spoon-feed answers.\n\n"
+    "You are Pi, a friendly and encouraging tech study assistant. "
+    "Your goal is to help students truly understand technology and computer science — never spoon-feed answers.\n\n"
+    "Topics you cover include: programming languages, algorithms, data structures, computer science fundamentals, "
+    "networking, cybersecurity, operating systems, web development, databases, software engineering, "
+    "and related STEM concepts.\n\n"
     "Rules you must follow:\n"
-    "1. NEVER give direct answers to math problems.\n"
-    "2. Instead, give hints, explain the relevant method or concept, and ask guiding questions "
+    "1. NEVER give direct answers to technical problems or coding challenges.\n"
+    "2. Instead, give hints, explain the relevant concept or method, and ask guiding questions "
     "that lead the student toward the solution on their own.\n"
-    "3. When helpful, suggest free resources like Khan Academy, Desmos, Wolfram Alpha, "
-    "Paul's Online Math Notes, or 3Blue1Brown videos.\n"
-    "4. Adapt to any math level — from basic arithmetic to college-level calculus and beyond.\n"
+    "3. When helpful, suggest free resources like freeCodeCamp, MDN Web Docs, CS50, GeeksforGeeks, "
+    "The Odin Project, or official language/framework documentation.\n"
+    "4. Adapt to any level — from beginner programming basics to advanced systems and algorithms.\n"
     "5. Keep responses concise, clear, and encouraging. Use simple language.\n"
     "6. If a student is stuck, break the problem into smaller steps and guide them through one step at a time.\n"
     "7. Celebrate progress and effort, not just correct answers.\n"
@@ -86,7 +89,7 @@ def _extract_flashcard_intent(message):
             r'\b(?:generate|make|create|build|give|produce|write|prepare|can you|could you|please|'
             r'i want|i need|i\'d like|let\'s|help me|set up|come up with|me|some|a few|'
             r'\d+)\s*(?:flash\s*cards?|study\s*cards?|review\s*cards?)?\b',
-            '', message, flags=re.IGNORECASE
+         '', message, flags=re.IGNORECASE
         ).strip().rstrip('?!.')
 
     return (topic, count) if topic and len(topic) > 1 else None
@@ -95,7 +98,7 @@ def _extract_flashcard_intent(message):
 def _build_flashcards(topic, count):
     """Call Gemini and return a list of flashcard dicts."""
     prompt = (
-        f"Generate {count} flashcards about the math topic: \"{topic}\".\n"
+        f"Generate {count} flashcards about the tech topic: \"{topic}\".\n"
         "Return ONLY a valid JSON array with no extra text, markdown, or code fences.\n"
         "Each element must have these exact fields:\n"
         "  \"title\": short descriptive title\n"
@@ -146,7 +149,7 @@ def chat():
 
     contents = [
         types.Content(role="user", parts=[types.Part(text=SYSTEM_PROMPT)]),
-        types.Content(role="model", parts=[types.Part(text="Understood! I'm Pi, your math study assistant. I'll guide you with hints and explanations without giving direct answers. How can I help you today?")]),
+        types.Content(role="model", parts=[types.Part(text="Understood! I'm Pi, your tech study assistant. I'll guide you with hints and explanations without giving direct answers. How can I help you today?")]),
     ]
 
     for entry in history:
