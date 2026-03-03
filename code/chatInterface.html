@@ -566,7 +566,7 @@
             <!-- Messages will be added here by JavaScript -->
         </div>
         <div class="chat-input">
-            <input type="text" class="message-input" id="messageInput" placeholder="Ask Pi about programming, networking, algorithms..." aria-label="Message input">
+            <input type="text" class="message-input" id="messageInput" placeholder="Ask me anything — no question is too small!" aria-label="Message input">
             <button class="send-button" id="sendButton" aria-label="Send message">
                 <svg viewBox="0 0 24 24">
                     <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
@@ -578,7 +578,7 @@
     <div class="feedback-animation" id="feedbackAnimation"></div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             const chatMessages = document.getElementById('chatMessages');
             const messageInput = document.getElementById('messageInput');
             const sendButton = document.getElementById('sendButton');
@@ -591,6 +591,49 @@
 
             const CHAT_STORAGE_KEY = 'piAI_chatHistory';
             const DISPLAY_STORAGE_KEY = 'piAI_displayHistory';
+
+            const EXAMPLE_QUESTIONS = [
+                "What is the internet and how does it work?",
+                "How do I start learning to code?",
+                "What does an algorithm do?",
+                "Help me understand passwords and staying safe online",
+                "What is a computer program?",
+                "What's the difference between a website and an app?",
+                "What is artificial intelligence?",
+                "How do apps on my phone actually work?",
+                "What is a bug in coding?",
+                "What does a software engineer do every day?",
+                "What is the cloud and where does it store things?",
+                "How does a search engine find answers so fast?",
+                "What is cybersecurity and why does it matter?",
+                "What is a database?",
+                "How do video games get made?",
+                "What is HTML and what is it used for?",
+            ];
+
+            function buildWelcomeMessage(questions) {
+                const fallback = [...EXAMPLE_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 4);
+                const picked = (questions && questions.length === 4) ? questions : fallback;
+                const bullets = picked.map(q => `&bull; <em>&quot;${q}&quot;</em>`).join('<br>');
+                return (
+                    "Hey there! I'm <strong>Pi</strong> — your friendly tech helper! 👋<br><br>" +
+                    "Whether you're just starting out or already know a thing or two, I'm here to make technology easy and fun. No question is too small — ever!<br><br>" +
+                    "<strong>You can ask me things like:</strong><br>" + bullets + "<br><br>" +
+                    "<strong>I can also make flashcards for you!</strong> Just say something like <em>&quot;make me flashcards on [topic]&quot;</em> and I'll build a study set instantly.<br><br>" +
+                    "So, what would you like to learn today?"
+                );
+            }
+
+            async function fetchWelcomeQuestions() {
+                try {
+                    const res = await fetch('http://127.0.0.1:5000/api/welcome-questions');
+                    if (!res.ok) return null;
+                    const data = await res.json();
+                    return data.questions || null;
+                } catch {
+                    return null;
+                }
+            }
 
             function loadChatState() {
                 try {
@@ -667,6 +710,14 @@
             function hideTypingIndicator() {
                 const indicator = document.getElementById('typingIndicator');
                 if (indicator) indicator.remove();
+            }
+
+            function formatMarkdown(text) {
+                return text
+                    .replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*([\s\S]+?)\*/g, '<em>$1</em>')
+                    .replace(/`([^`]+)`/g, '<code style="background:rgba(0,0,0,0.08);padding:1px 5px;border-radius:3px;font-family:monospace;">$1</code>')
+                    .replace(/\n/g, '<br>');
             }
 
             function addMessage(type, content, isRestoring = false) {
@@ -801,7 +852,7 @@
                         saveFlashcardsToStorage(data.flashcards);
                         addMessage('tutor', `Done! ${data.flashcards.length} flashcards added to your collection. <a href="flashcardmaker.html" style="color: #9b30ff; text-decoration: underline;">View your flashcards</a>`);
                     } else {
-                        addMessage('tutor', data.response);
+                        addMessage('tutor', formatMarkdown(data.response));
                         chatHistory.push({ role: 'assistant', content: data.response });
                         localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(chatHistory));
                     }
@@ -816,13 +867,14 @@
             }
 
             // Clear chat button
-            document.getElementById('clearChatBtn').addEventListener('click', function() {
+            document.getElementById('clearChatBtn').addEventListener('click', async function() {
                 chatHistory = [];
                 displayHistory = [];
                 localStorage.removeItem(CHAT_STORAGE_KEY);
                 localStorage.removeItem(DISPLAY_STORAGE_KEY);
                 chatMessages.innerHTML = '';
-                addMessage('tutor', "Hi! I'm <strong>Pi</strong> — your AI-powered tech study assistant.<br><br><strong>What I cover:</strong><br>&bull; Programming languages &amp; algorithms<br>&bull; Data structures &amp; computer science fundamentals<br>&bull; Networking, cybersecurity &amp; operating systems<br>&bull; Web development, databases &amp; software engineering<br><br><strong>Generative capabilities:</strong><br>&bull; <strong>Flashcard generation</strong> — say <em>&quot;make me flashcards on [topic]&quot;</em> and I'll instantly build a study set<br>&bull; <strong>Flashcard management</strong> — tell me to <em>&quot;delete flashcards on [topic]&quot;</em> to clean up your collection<br><br>Ask me anything tech-related to get started!");
+                const questions = await fetchWelcomeQuestions();
+                addMessage('tutor', buildWelcomeMessage(questions));
             });
 
             // Send button click
@@ -840,7 +892,8 @@
             createParticles();
             const hasHistory = loadChatState();
             if (!hasHistory) {
-                addMessage('tutor', "Hi! I'm <strong>Pi</strong> — your AI-powered tech study assistant.<br><br><strong>What I cover:</strong><br>&bull; Programming languages &amp; algorithms<br>&bull; Data structures &amp; computer science fundamentals<br>&bull; Networking, cybersecurity &amp; operating systems<br>&bull; Web development, databases &amp; software engineering<br><br><strong>Generative capabilities:</strong><br>&bull; <strong>Flashcard generation</strong> — say <em>&quot;make me flashcards on [topic]&quot;</em> and I'll instantly build a study set<br>&bull; <strong>Flashcard management</strong> — tell me to <em>&quot;delete flashcards on [topic]&quot;</em> to clean up your collection<br><br>Ask me anything tech-related to get started!");
+                const questions = await fetchWelcomeQuestions();
+                addMessage('tutor', buildWelcomeMessage(questions));
             }
         });
     </script>
