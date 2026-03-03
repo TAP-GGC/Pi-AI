@@ -170,8 +170,9 @@ hr{
     margin: 0 auto;
     width: 12%;
     position: relative;
-    right: -90px;  
-    top: -80px;  /* moves DOWN */
+    right: -190px;  
+    top: -100px;  /* moves DOWN */
+    left: 150;
 }
 
 .pi{
