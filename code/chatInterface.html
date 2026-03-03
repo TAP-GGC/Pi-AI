@@ -553,19 +553,20 @@
         <div class="chat-header">
             <div class="user-info">
                 <div class="avatar">Pi</div>
-                <h1>Pi&AI - Math Study Assistant</h1>
+                <h1>Pi&AI - Tech Study Assistant</h1>
             </div>
             <div style="display:flex; align-items:center; gap:10px;">
                 <a href="firstPage.html">Home</a>
                 <a href="secondPage.html">Study Tools</a>
                 <a href="flashcardmaker.html">Flashcards</a>
+                <button id="clearChatBtn" style="color:white;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);border-radius:4px;padding:4px 10px;font-size:13px;font-weight:600;cursor:pointer;">Clear Chat</button>
             </div>
         </div>
         <div class="chat-messages" id="chatMessages">
             <!-- Messages will be added here by JavaScript -->
         </div>
         <div class="chat-input">
-            <input type="text" class="message-input" id="messageInput" placeholder="Ask Pi a math question..." aria-label="Message input">
+            <input type="text" class="message-input" id="messageInput" placeholder="Ask Pi about programming, networking, algorithms..." aria-label="Message input">
             <button class="send-button" id="sendButton" aria-label="Send message">
                 <svg viewBox="0 0 24 24">
                     <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
@@ -585,7 +586,29 @@
 
             const API_URL = 'http://127.0.0.1:5000/api/chat';
             let chatHistory = [];
+            let displayHistory = [];
             let isSending = false;
+
+            const CHAT_STORAGE_KEY = 'piAI_chatHistory';
+            const DISPLAY_STORAGE_KEY = 'piAI_displayHistory';
+
+            function loadChatState() {
+                try {
+                    const savedChat = localStorage.getItem(CHAT_STORAGE_KEY);
+                    const savedDisplay = localStorage.getItem(DISPLAY_STORAGE_KEY);
+                    if (savedChat) chatHistory = JSON.parse(savedChat);
+                    if (savedDisplay) {
+                        const msgs = JSON.parse(savedDisplay);
+                        if (msgs && msgs.length > 0) {
+                            msgs.forEach(msg => addMessage(msg.type, msg.content, true));
+                            return true;
+                        }
+                    }
+                } catch (e) {
+                    console.error('Failed to load chat history:', e);
+                }
+                return false;
+            }
             
             // Create particles for background effect
             function createParticles() {
@@ -645,13 +668,22 @@
                 if (indicator) indicator.remove();
             }
 
-            function addMessage(type, content) {
+            function addMessage(type, content, isRestoring = false) {
                 hideTypingIndicator();
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${type}`;
+                if (isRestoring) {
+                    messageDiv.style.animation = 'none';
+                    messageDiv.style.opacity = '1';
+                    messageDiv.style.transform = 'translateY(0)';
+                }
                 messageDiv.innerHTML = content;
                 chatMessages.appendChild(messageDiv);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
+                if (!isRestoring) {
+                    displayHistory.push({ type, content });
+                    localStorage.setItem(DISPLAY_STORAGE_KEY, JSON.stringify(displayHistory));
+                }
             }
 
             function saveFlashcardsToStorage(cards) {
@@ -670,26 +702,33 @@
             }
 
             function handleFlashcardDelete(message) {
-                const lower = message.toLowerCase();
+                const lower = message.toLowerCase().trim();
+
+                const hasDeleteIntent = /\b(delete|remove|clear|erase|wipe|get rid of|reset)\b/.test(lower);
+                const hasFlashcardMention = /\b(flash\s*cards?|cards?)\b/.test(lower);
+
+                if (!hasDeleteIntent || !hasFlashcardMention) return false;
+
                 const flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
 
-                // Clear all flashcards
-                if (/\b(clear|delete|remove)\s+(all|every)\s*(flash\s*cards?|cards?)/.test(lower) ||
-                    /\b(clear|reset)\s*(my\s*)?(flash\s*cards?|card\s*collection)/.test(lower)) {
-                    if (flashcards.length === 0) {
-                        addMessage('tutor', 'You don\'t have any flashcards to clear.');
-                        return true;
+                // Try to extract a specific topic
+                // Pattern 1: "...about/on/for/called/named/titled X"
+                const prepMatch = lower.match(/\b(?:about|on|for|called|named|titled|related\s+to)\s+(.+?)(?:\s*[?!.]?\s*$)/);
+                // Pattern 2: "delete [topic] flashcards"
+                const beforeMatch = lower.match(/\b(?:delete|remove|clear|erase|wipe)\s+(?:my\s+|the\s+|all\s+(?:my\s+|the\s+)?)?(.+?)\s+(?:flash\s*cards?|cards?)\b/);
+
+                let keyword = null;
+                if (prepMatch) {
+                    keyword = prepMatch[1].trim();
+                } else if (beforeMatch) {
+                    const candidate = beforeMatch[1].trim();
+                    // Ignore filler words that don't indicate a topic
+                    if (candidate && !/^(all|every|my|the|a|an|some|any)$/.test(candidate)) {
+                        keyword = candidate;
                     }
-                    const count = flashcards.length;
-                    localStorage.setItem('flashcards', JSON.stringify([]));
-                    addMessage('tutor', `Done! Cleared all ${count} flashcards from your collection.`);
-                    return true;
                 }
 
-                // Delete specific flashcard(s) by title/topic keyword
-                const specificMatch = lower.match(/\b(?:clear|delete|remove)\s+(?:the\s+)?(?:flash\s*cards?|cards?)\s+(?:about|on|for|called|named|titled)\s+(.+?)(?:\s*[?!.]?\s*$)/);
-                if (specificMatch) {
-                    const keyword = specificMatch[1].trim().toLowerCase();
+                if (keyword) {
                     const remaining = [];
                     const removed = [];
                     flashcards.forEach(card => {
@@ -704,7 +743,7 @@
                     });
 
                     if (removed.length === 0) {
-                        addMessage('tutor', `I couldn't find any flashcards matching "${keyword}". <a href="flashcardmaker.html" style="color: #00ffff; text-decoration: underline;">View your flashcards</a> to see what you have.`);
+                        addMessage('tutor', `I couldn't find any flashcards matching "${keyword}". <a href="flashcardmaker.html" style="color: #9b30ff; text-decoration: underline;">View your flashcards</a> to see what you have.`);
                         return true;
                     }
 
@@ -713,7 +752,15 @@
                     return true;
                 }
 
-                return false;
+                // No specific topic — delete all
+                if (flashcards.length === 0) {
+                    addMessage('tutor', "You don't have any flashcards to clear.");
+                    return true;
+                }
+                const count = flashcards.length;
+                localStorage.setItem('flashcards', JSON.stringify([]));
+                addMessage('tutor', `Done! Cleared all ${count} flashcards from your collection.`);
+                return true;
             }
 
             async function sendMessage() {
@@ -726,6 +773,7 @@
 
                 addMessage('user', message);
                 chatHistory.push({ role: 'user', content: message });
+                localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(chatHistory));
 
                 // Handle flashcard delete/clear commands locally
                 if (handleFlashcardDelete(message)) {
@@ -750,10 +798,11 @@
                         addMessage('tutor', 'Sorry, something went wrong. Please try again.');
                     } else if (data.flashcards && data.flashcards.length > 0) {
                         saveFlashcardsToStorage(data.flashcards);
-                        addMessage('tutor', `Done! ${data.flashcards.length} flashcards added to your collection. <a href="flashcardmaker.html" style="color: #00ffff; text-decoration: underline;">View your flashcards</a>`);
+                        addMessage('tutor', `Done! ${data.flashcards.length} flashcards added to your collection. <a href="flashcardmaker.html" style="color: #9b30ff; text-decoration: underline;">View your flashcards</a>`);
                     } else {
                         addMessage('tutor', data.response);
                         chatHistory.push({ role: 'assistant', content: data.response });
+                        localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(chatHistory));
                     }
                 } catch (error) {
                     hideTypingIndicator();
@@ -764,6 +813,16 @@
                 sendButton.disabled = false;
                 messageInput.focus();
             }
+
+            // Clear chat button
+            document.getElementById('clearChatBtn').addEventListener('click', function() {
+                chatHistory = [];
+                displayHistory = [];
+                localStorage.removeItem(CHAT_STORAGE_KEY);
+                localStorage.removeItem(DISPLAY_STORAGE_KEY);
+                chatMessages.innerHTML = '';
+                addMessage('tutor', "Hi! I'm <strong>Pi</strong> — your AI-powered tech study assistant.<br><br><strong>What I cover:</strong><br>&bull; Programming languages &amp; algorithms<br>&bull; Data structures &amp; computer science fundamentals<br>&bull; Networking, cybersecurity &amp; operating systems<br>&bull; Web development, databases &amp; software engineering<br><br><strong>Generative capabilities:</strong><br>&bull; <strong>Flashcard generation</strong> — say <em>&quot;make me flashcards on [topic]&quot;</em> and I'll instantly build a study set<br>&bull; <strong>Flashcard management</strong> — tell me to <em>&quot;delete flashcards on [topic]&quot;</em> to clean up your collection<br><br>I guide you through concepts step by step without just handing you the answer. Ask me anything tech-related to get started!");
+            });
 
             // Send button click
             sendButton.addEventListener('click', sendMessage);
@@ -776,9 +835,12 @@
                 }
             });
 
-            // Welcome message and start particles
+            // Restore history or show welcome message
             createParticles();
-            addMessage('tutor', "Hi! I'm Pi, your math study assistant. Ask me any math question and I'll help guide you to the answer. I won't give you the answer directly, but I'll help you understand the concepts!");
+            const hasHistory = loadChatState();
+            if (!hasHistory) {
+                addMessage('tutor', "Hi! I'm <strong>Pi</strong> — your AI-powered tech study assistant.<br><br><strong>What I cover:</strong><br>&bull; Programming languages &amp; algorithms<br>&bull; Data structures &amp; computer science fundamentals<br>&bull; Networking, cybersecurity &amp; operating systems<br>&bull; Web development, databases &amp; software engineering<br><br><strong>Generative capabilities:</strong><br>&bull; <strong>Flashcard generation</strong> — say <em>&quot;make me flashcards on [topic]&quot;</em> and I'll instantly build a study set<br>&bull; <strong>Flashcard management</strong> — tell me to <em>&quot;delete flashcards on [topic]&quot;</em> to clean up your collection<br><br>I guide you through concepts step by step without just handing you the answer. Ask me anything tech-related to get started!");
+            }
         });
     </script>
 </body>
