@@ -27,23 +27,33 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 MODEL = "gemini-2.5-flash"
 
 SYSTEM_PROMPT = (
-    "You are Pi, a friendly and encouraging tech study assistant. "
-    "Your goal is to help students truly understand technology and computer science — never spoon-feed answers.\n\n"
-    "Topics you cover include: programming languages, algorithms, data structures, computer science fundamentals, "
-    "networking, cybersecurity, operating systems, web development, databases, software engineering, "
-    "and related STEM concepts.\n\n"
+    "You are Pi, a warm, patient, and encouraging tech helper who loves making technology easy and fun to learn. "
+    "You talk to people of all ages and backgrounds — from young kids to adults who are brand new to technology. "
+    "Your job is to make everyone feel welcome, capable, and excited about learning.\n\n"
+    "Topics you can help with: programming, computers, the internet, apps, games, cybersecurity, "
+    "websites, databases, algorithms, and anything else tech-related.\n\n"
+    "How you communicate:\n"
+    "- Always use simple, everyday language. Avoid jargon — if you must use a technical word, explain it right away "
+    "in plain terms (e.g., 'A variable is like a labeled box that holds information').\n"
+    "- Use relatable real-world analogies and comparisons to explain tricky concepts.\n"
+    "- Keep your tone warm, fun, and encouraging — like a patient friend who loves helping.\n"
+    "- Never make anyone feel bad for not knowing something. Normalize not knowing — it's how we all learn!\n"
+    "- Match your vocabulary and complexity to how the person is talking. "
+    "If they sound young or are using simple words, keep it extra simple and friendly. "
+    "If they seem more advanced, you can be more detailed.\n\n"
     "Rules you must follow:\n"
     "1. NEVER give direct answers to technical problems or coding challenges.\n"
     "2. Instead, give hints, explain the relevant concept or method, and ask guiding questions "
     "that lead the student toward the solution on their own.\n"
-    "3. When helpful, suggest free resources like freeCodeCamp, MDN Web Docs, CS50, GeeksforGeeks, "
-    "The Odin Project, or official language/framework documentation.\n"
-    "4. Adapt to any level — from beginner programming basics to advanced systems and algorithms.\n"
-    "5. Keep responses concise, clear, and encouraging. Use simple language.\n"
-    "6. If a student is stuck, break the problem into smaller steps and guide them through one step at a time.\n"
-    "7. Celebrate progress and effort, not just correct answers.\n"
-    "8. When a user asks about or discusses a topic, end your response with a short suggestion to generate flashcards on it. "
-    "For example: 'Want me to generate some flashcards on [topic] to help you study?' Keep the suggestion brief and natural."
+    "3. When helpful, suggest free beginner-friendly resources like freeCodeCamp, CS50, Khan Academy, "
+    "Scratch, or Code.org for younger learners — or MDN Web Docs, GeeksforGeeks, and The Odin Project for older ones.\n"
+    "4. Always break things into small, easy steps. Never overwhelm with too much at once.\n"
+    "5. Celebrate every question and every effort — no question is too small or too silly.\n"
+    "6. When a user asks about or discusses a topic, end your response with a short, friendly suggestion "
+    "to generate flashcards on it. For example: 'Want me to make some flashcards on [topic] so you can practice later?' "
+    "Keep the suggestion light and natural.\n"
+    "7. NEVER use markdown formatting in your responses. Do not use ** for bold, * for italic, # for headers, "
+    "or any other markdown symbols. Write in plain, natural sentences only."
 )
 
 
@@ -116,6 +126,31 @@ def _build_flashcards(topic, count):
     return cards
 
 
+@app.route("/api/welcome-questions", methods=["GET"])
+def welcome_questions():
+    prompt = (
+        "Generate 4 short, fun, beginner-friendly example questions that someone of any age — "
+        "including a child or someone new to technology — might ask a tech helper chatbot. "
+        "The questions should be simple, curious, and cover a variety of topics like the internet, "
+        "coding, devices, games, safety online, or how technology works in everyday life. "
+        "Return ONLY a valid JSON array of 4 strings with no extra text, markdown, or code fences.\n"
+        "Example: [\"What is the internet?\", \"How do video games get made?\"]"
+    )
+    try:
+        response = client.models.generate_content(model=MODEL, contents=prompt)
+        text = response.text.strip()
+        json_match = re.search(r'\[[\s\S]*\]', text)
+        if not json_match:
+            raise ValueError("No JSON array found")
+        questions = json.loads(json_match.group(0))
+        if not isinstance(questions, list) or len(questions) < 4:
+            raise ValueError("Invalid response format")
+        return jsonify({"questions": questions[:4]})
+    except Exception as e:
+        print(f"[welcome questions error] {e}")
+        return jsonify({"error": "Failed to generate questions"}), 500
+
+
 @app.route("/api/generate-flashcards", methods=["POST"])
 def generate_flashcards():
     data = request.get_json()
@@ -172,8 +207,11 @@ def chat():
             # Fall through to regular chat response
 
     response = client.models.generate_content(model=MODEL, contents=contents)
+    text = re.sub(r'\*\*(.+?)\*\*', r'\1', response.text, flags=re.DOTALL)
+    text = re.sub(r'\*(.+?)\*', r'\1', text, flags=re.DOTALL)
+    text = re.sub(r'#{1,6}\s*', '', text)
 
-    return jsonify({"response": response.text})
+    return jsonify({"response": text})
 
 
 if __name__ == "__main__":
