@@ -165,22 +165,30 @@ hr{
     border: none;
 }
 
-.brain{
-    display: block;
-    margin: 0 auto;
-    width: 12%;
-    position: relative;
-    right: -90px;  
-    top: -80px;  /* moves DOWN */
-}
-
-.pi{
+#pi{
+     background-image: url("images/morepie2.gif");
     display: block;
     margin: 0 auto;
     width: 25%;
     position: relative;
-    top: -50px;  /* moves DOWN */
+    top: -30px;  /* moves DOWN */
 }
+
+.brain{
+    display: block;
+    width: 20%;
+    position: relative;
+    right: -100px;  
+    top: 20px;  /* moves DOWN */
+  margin: 0 6px auto; /* Centers the image */
+
+}
+
+/* Ensure bubble allows content centering
+#speechBubble {
+  text-align: center;
+} */
+
 
 .button-wrapper{
     display: flex;

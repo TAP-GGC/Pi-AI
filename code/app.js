@@ -164,11 +164,35 @@ taskForm.addEventListener("submit", function(event){
 setTimeout(() => {
     if (speechBubble) {
         speechBubble.innerHTML = `
-        Do you need assistance?<br><br>
-        <button class="bubble-button" onclick="window.location.href='chatInterface.html'">
-                Yes, please →
-            </button>
+        <img src="images/multi.gif" class="brain" alt="Assist"><br>
+      Do you need assistance?<br><br>
+      <button class="bubble-button" onclick="window.location.href='chatInterface.html'">
+        Yes, please →
+      </button>
         `;
     }
 }, 3000);
 
+//Changing image mascot
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Array of image paths
+    const images = [
+        'images/morepie2.gif',
+        'images/typing-pie-pixilart (2).gif'
+    ];
+
+    let currentImageIndex = 0;
+    const imageElement = document.getElementById('pi');
+    const intervalTime = 3000; // Change image every 3 seconds (3000 milliseconds)
+
+    function changeImage() {
+        // Increment the index, and loop back to 0 if at the end of the array
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        
+        // Change the image source
+        imageElement.src = images[currentImageIndex];
+    }
+
+    // Call the changeImage function every 'intervalTime' milliseconds
+    window.setInterval(changeImage, intervalTime);
+});
