@@ -2,3 +2,5 @@ flask
 flask-cors
 google-generativeai
 python-dotenv
+better-profanity
+google-genai
