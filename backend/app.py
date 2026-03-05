@@ -6,6 +6,9 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+from better_profanity import profanity
+
+profanity.load_censor_words()
 
 load_dotenv()
 
@@ -44,11 +47,14 @@ SYSTEM_PROMPT = (
     "2. Always give one small step at a time. Never dump a lot of information at once.\n"
     "3. Celebrate effort — every question is a great question.\n"
     "4. At the end of your response, suggest one of these two things — pick whichever fits best:\n"
-    "   - Suggest FLASHCARDS when you just explained a specific concept the user can practice. "
-    "Example: 'Want me to make flashcards on this so you can review later?'\n"
-    "   - Suggest a STUDY PLAN when the user wants to learn a whole topic or get better at something. "
+    "   - Suggest a STUDY PLAN when the user is asking about a broad topic, wants to learn something new, "
+    "is just getting started, or wants to understand a subject more deeply. "
     "Example: 'Want me to build you a study plan so you can learn [topic] step by step?'\n"
-    "   Only suggest one thing per response. Keep it one short, casual sentence.\n"
+    "   - Suggest FLASHCARDS only when you just explained one specific, small concept and the user clearly "
+    "already has some understanding of the topic. "
+    "Example: 'Want me to make flashcards on this so you can review later?'\n"
+    "   When in doubt, suggest a STUDY PLAN — it helps more. "
+    "Only suggest one thing per response. Keep it one short, casual sentence.\n"
     "5. NEVER use markdown formatting. No **, *, or # symbols. Plain sentences only."
 )
 
@@ -180,6 +186,9 @@ def generate_flashcards():
     topic = data["topic"]
     count = data.get("count", 5)
 
+    if profanity.contains_profanity(topic):
+        return jsonify({"error": "Please enter an appropriate topic."}), 400
+
     try:
         cards = _build_flashcards(topic, count)
     except Exception:
@@ -199,6 +208,9 @@ def chat():
 
     user_message = data["message"]
     history = data.get("history", [])
+
+    if profanity.contains_profanity(user_message):
+        return jsonify({"response": "Hey! Let's keep things friendly and respectful. Try asking me something else!"}), 200
 
     contents = [
         types.Content(role="user", parts=[types.Part(text=SYSTEM_PROMPT)]),
