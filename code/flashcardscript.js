@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
     const flashcardsContainer = document.getElementById('flashcardsContainer');
-    const saveFlashcardBtn = document.getElementById('saveFlashcardBtn');
-    const clearFormBtn = document.getElementById('clearFormBtn');
+    const addCardBtn = document.getElementById('addCardBtn');
     const studyAllBtn = document.getElementById('studyAllBtn');
     const studyMode = document.getElementById('studyMode');
     const closeStudyBtn = document.getElementById('closeStudy');
@@ -21,8 +20,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const generateWithAIBtn = document.getElementById('generateWithAIBtn');
     const aiLoading = document.getElementById('aiLoading');
 
+    const TECH_CATEGORIES = [
+        'Programming', 'Algorithms', 'Data Structures', 'Networking',
+        'Cybersecurity', 'Web Development', 'Databases', 'Operating Systems',
+        'Software Engineering'
+    ];
+
     // State
-    let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
+    let flashcards = [];
+    try { flashcards = JSON.parse(localStorage.getItem('flashcards')) || []; } catch(e) { localStorage.removeItem('flashcards'); }
     let currentStudyIndex = 0;
     let studyFlashcards = [];
     let activeTagFilter = null;
@@ -34,9 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
     updateTagFilter();
 
     // Event Listeners
-    saveFlashcardBtn.addEventListener('click', saveFlashcard);
-    clearFormBtn.addEventListener('click', clearForm);
-    studyAllBtn.addEventListener('click', startStudySession);
+    addCardBtn.addEventListener('click', openAddCardModal);
+    document.getElementById('deleteAllBtn').addEventListener('click', deleteAllFlashcards);
+    studyAllBtn.addEventListener('click', () => startStudySession());
     closeStudyBtn.addEventListener('click', closeStudySession);
     fliStudyCardBtn.addEventListener('click', flipStudyCard);
     prevCardBtn.addEventListener('click', showPrevCard);
@@ -103,39 +109,69 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function saveFlashcard() {
-        const title = document.getElementById('flashcardTitle').value.trim();
-        const front = document.getElementById('flashcardFront').value.trim();
-        const back = document.getElementById('flashcardBack').value.trim();
-        const tags = document.getElementById('flashcardTags').value.trim();
+    function openAddCardModal() {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:99999;display:flex;align-items:center;justify-content:center;';
 
-        if (!title || !front || !back) {
-            showToast('Please fill in all required fields', 'error');
-            return;
-        }
+        const box = document.createElement('div');
+        box.style.cssText = 'background:white;border-radius:12px;padding:2rem;width:90%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,0.3);font-family:Arial,sans-serif;';
+        box.innerHTML = `
+            <h3 style="margin-bottom:1.5rem;color:rgb(196,90,236);">Create Flashcard</h3>
+            <div style="margin-bottom:1rem;">
+                <label style="display:block;margin-bottom:4px;font-weight:500;">Title</label>
+                <input id="_mTitle" type="text" placeholder="Enter title..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;box-sizing:border-box;">
+            </div>
+            <div style="margin-bottom:1rem;">
+                <label style="display:block;margin-bottom:4px;font-weight:500;">Front</label>
+                <textarea id="_mFront" placeholder="Question or concept..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;min-height:80px;resize:vertical;box-sizing:border-box;"></textarea>
+            </div>
+            <div style="margin-bottom:1rem;">
+                <label style="display:block;margin-bottom:4px;font-weight:500;">Back</label>
+                <textarea id="_mBack" placeholder="Answer or explanation..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;min-height:80px;resize:vertical;box-sizing:border-box;"></textarea>
+            </div>
+            <div style="margin-bottom:1.5rem;">
+                <label style="display:block;margin-bottom:4px;font-weight:500;">Tags (comma separated, optional)</label>
+                <input id="_mTags" type="text" placeholder="e.g., programming, networking" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;box-sizing:border-box;">
+            </div>
+            <div style="display:flex;gap:1rem;">
+                <button id="_mSave" style="padding:10px 20px;background:rgb(196,90,236);color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Save</button>
+                <button id="_mCancel" style="padding:10px 20px;background:white;color:rgb(196,90,236);border:2px solid rgb(196,90,236);border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Cancel</button>
+            </div>
+        `;
 
-        const newFlashcard = {
-            id: Date.now().toString(),
-            title,
-            front,
-            back,
-            tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
-            createdAt: new Date().toISOString()
-        };
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+        document.getElementById('_mTitle').focus();
 
-        flashcards.push(newFlashcard);
-        saveToLocalStorage();
-        updateFlashcardsDisplay();
-        updateTagFilter();
-        clearForm();
-        showToast('Flashcard saved successfully!', 'success');
-    }
+        function close() { document.body.removeChild(overlay); }
 
-    function clearForm() {
-        document.getElementById('flashcardTitle').value = '';
-        document.getElementById('flashcardFront').value = '';
-        document.getElementById('flashcardBack').value = '';
-        document.getElementById('flashcardTags').value = '';
+        document.getElementById('_mCancel').addEventListener('click', close);
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+
+        document.getElementById('_mSave').addEventListener('click', () => {
+            const title = document.getElementById('_mTitle').value.trim();
+            const front = document.getElementById('_mFront').value.trim();
+            const back = document.getElementById('_mBack').value.trim();
+            const tags = document.getElementById('_mTags').value.trim();
+
+            if (!title || !front || !back) {
+                alert('Please fill in Title, Front, and Back.');
+                return;
+            }
+
+            flashcards.push({
+                id: Date.now().toString() + Math.random().toString(36).slice(2),
+                title, front, back,
+                tags: tags ? tags.split(',').map(t => t.trim()).filter(Boolean) : [],
+                createdAt: new Date().toISOString()
+            });
+
+            saveToLocalStorage();
+            updateFlashcardsDisplay();
+            updateTagFilter();
+            close();
+            showToast('Flashcard saved!', 'success');
+        });
     }
 
     function saveToLocalStorage() {
@@ -254,6 +290,20 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.flashcard-form').scrollIntoView({ behavior: 'smooth' });
     }
 
+    function deleteAllFlashcards() {
+        if (flashcards.length === 0) {
+            showToast('No flashcards to delete', 'error');
+            return;
+        }
+        if (confirm(`Delete all ${flashcards.length} flashcards? This cannot be undone.`)) {
+            flashcards = [];
+            saveToLocalStorage();
+            updateFlashcardsDisplay();
+            updateTagFilter();
+            showToast('All flashcards deleted', 'success');
+        }
+    }
+
     function deleteFlashcard(id) {
         if (confirm('Are you sure you want to delete this flashcard?')) {
             flashcards = flashcards.filter(card => card.id !== id);
@@ -331,11 +381,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateFlashcardsDisplay();
     }
 
-    const TECH_CATEGORIES = [
-        'Programming', 'Algorithms', 'Data Structures', 'Networking',
-        'Cybersecurity', 'Web Development', 'Databases', 'Operating Systems',
-        'Software Engineering'
-    ];
 
     function updateTagFilter() {
         // Collect all unique tags from existing cards
