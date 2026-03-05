@@ -9,20 +9,22 @@ const speechBubble = document.getElementById("speechBubble");
 
 
 // ---------------- TIMER LOGIC ----------------
-let customTime = 0;
-let timeLeft = customTime;
+let customTime = parseInt(localStorage.getItem('timerCustomTime')) || 25 * 60;
+let timeLeft = parseInt(localStorage.getItem('timerTimeLeft')) || customTime;
 let interval;
 
 const updateTimer = () => {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
-    timer.textContent = 
-    `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    timer.textContent = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    localStorage.setItem('timerTimeLeft', timeLeft);
+    localStorage.setItem('timerCustomTime', customTime);
 };
 
 // Start Timer
 const startTimer = () => {
     if (interval) return;
+    if (timeLeft <= 0) return;
 
     // forces saving the custom value typed in the timer
     // line changed to fix timer problem
@@ -72,6 +74,7 @@ const stopTimer = () => {
 const resetTimer = () => {
     clearInterval(interval);
     interval = null;
+    customTime = 25 * 60;
     timeLeft = customTime;
     updateTimer();
 
@@ -81,6 +84,8 @@ const resetTimer = () => {
     clockRingImage.classList.remove("shake");
     }
 };
+
+updateTimer(); // show default time on load
 
 // Event listeners
 start.addEventListener("click", startTimer);
