@@ -6,9 +6,6 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-from better_profanity import profanity
-
-profanity.load_censor_words()
 
 load_dotenv()
 
@@ -186,9 +183,6 @@ def generate_flashcards():
     topic = data["topic"]
     count = data.get("count", 5)
 
-    if profanity.contains_profanity(topic):
-        return jsonify({"error": "Please enter an appropriate topic."}), 400
-
     try:
         cards = _build_flashcards(topic, count)
     except Exception:
@@ -208,9 +202,6 @@ def chat():
 
     user_message = data["message"]
     history = data.get("history", [])
-
-    if profanity.contains_profanity(user_message):
-        return jsonify({"response": "Hey! Let's keep things friendly and respectful. Try asking me something else!"}), 200
 
     contents = [
         types.Content(role="user", parts=[types.Part(text=SYSTEM_PROMPT)]),
