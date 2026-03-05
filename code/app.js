@@ -15,12 +15,20 @@ let interval;
 const updateTimer = () => {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
-    timer.textContent = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    timer.textContent = 
+    `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 };
 
 // Start Timer
 const startTimer = () => {
     if (interval) return;
+
+    // forces saving the custom value typed in the timer
+    // line changed to fix timer problem
+    timer.blur();
+
+    // prevent starting if time is 0
+    if (timeLeft <= 0) return; // timer problem fix
 
     interval = setInterval(() => {
         timeLeft--;
@@ -28,6 +36,7 @@ const startTimer = () => {
 
         if (timeLeft === 0) {
             clearInterval(interval);
+            interval = null; // line changed for timer problem
 
             // Show clock image and add shake animation
             clockRingImage.style.visibility = "visible";
@@ -113,8 +122,10 @@ timer.addEventListener("blur", () => {
         customTime = (minutes * 60) + seconds;
         timeLeft = customTime;
         updateTimer();
-    } else {
-        updateTimer(); // reset if invalid
+
+    // lines removed to fix timer problem    
+    //} else {
+    //    updateTimer(); // reset if invalid
     }
 });
 
