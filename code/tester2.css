@@ -165,15 +165,6 @@ hr{
     border: none;
 }
 
-.brain{
-    display: block;
-    margin: 0 auto;
-    width: 12%;
-    position: relative;
-    right: -190px;  
-    top: -100px;  /* moves DOWN */
-    left: 150;
-}
 
 .pi{
     display: block;
@@ -182,6 +173,17 @@ hr{
     position: relative;
     top: -50px;  /* moves DOWN */
 }
+
+.brain{
+    display: block;
+    margin: 0 6px auto;
+    width: 30%;
+    position: relative;
+    right: -190px;  
+    top: 20px;  /* moves DOWN */
+    left: 95px;
+}
+
 
 .button-wrapper{
     display: flex;
