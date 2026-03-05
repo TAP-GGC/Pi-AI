@@ -619,7 +619,9 @@
                     "Hey there! I'm <strong>Pi</strong> — your friendly tech helper! 👋<br><br>" +
                     "Whether you're just starting out or already know a thing or two, I'm here to make technology easy and fun. No question is too small — ever!<br><br>" +
                     "<strong>You can ask me things like:</strong><br>" + bullets + "<br><br>" +
-                    "<strong>I can also make flashcards for you!</strong> Just say something like <em>&quot;make me flashcards on [topic]&quot;</em> and I'll build a study set instantly.<br><br>" +
+                    "<strong>I can also make flashcards or a study plan for you!</strong> Try:<br>" +
+                    "&bull; <em>&quot;make me flashcards on [topic]&quot;</em> — to build a quick study set<br>" +
+                    "&bull; <em>&quot;make me a study plan for [topic]&quot;</em> — to get a step-by-step learning path<br><br>" +
                     "So, what would you like to learn today?"
                 );
             }
@@ -738,6 +740,11 @@
                 }
             }
 
+            function saveStudyPlanToStorage(topics) {
+                const plan = topics.map(text => ({ text, done: false }));
+                localStorage.setItem('piAI_studyPlan', JSON.stringify(plan));
+            }
+
             function saveFlashcardsToStorage(cards) {
                 const existing = JSON.parse(localStorage.getItem('flashcards')) || [];
                 cards.forEach(card => {
@@ -850,7 +857,16 @@
                         addMessage('tutor', 'Sorry, something went wrong. Please try again.');
                     } else if (data.flashcards && data.flashcards.length > 0) {
                         saveFlashcardsToStorage(data.flashcards);
-                        addMessage('tutor', `Done! ${data.flashcards.length} flashcards added to your collection. <a href="flashcardmaker.html" style="color: #9b30ff; text-decoration: underline;">View your flashcards</a>`);
+                        const flashcardReply = `Done! ${data.flashcards.length} flashcards added to your collection.`;
+                        addMessage('tutor', `${flashcardReply} <a href="flashcardmaker.html" style="color: #9b30ff; text-decoration: underline;">View your flashcards</a>`);
+                        chatHistory.push({ role: 'assistant', content: flashcardReply });
+                        localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(chatHistory));
+                    } else if (data.study_plan && data.study_plan.length > 0) {
+                        saveStudyPlanToStorage(data.study_plan);
+                        const planReply = `Done! I've created a study plan with ${data.study_plan.length} topics.`;
+                        addMessage('tutor', `${planReply} <a href="secondPage.html" style="color: #9b30ff; text-decoration: underline;">Go to Study Tools</a> to start!`);
+                        chatHistory.push({ role: 'assistant', content: planReply });
+                        localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(chatHistory));
                     } else {
                         addMessage('tutor', formatMarkdown(data.response));
                         chatHistory.push({ role: 'assistant', content: data.response });
