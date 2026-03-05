@@ -50,39 +50,19 @@
                     </div>
                 </div>
 
-                <hr style="margin: 1.5rem 0; border-color: var(--border);">
-
-                <div class="form-group">
-                    <label for="flashcardTitle">Title</label>
-                    <input type="text" id="flashcardTitle" class="form-control" placeholder="Enter title...">
-                </div>
-                <div class="form-group">
-                    <label for="flashcardFront">Front Content</label>
-                    <textarea id="flashcardFront" class="form-control" placeholder="Enter front content..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="flashcardBack">Back Content</label>
-                    <textarea id="flashcardBack" class="form-control" placeholder="Enter back content..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="flashcardTags">Tags (comma separated)</label>
-                    <input type="text" id="flashcardTags" class="form-control" placeholder="e.g., programming, networking, algorithms">
-                </div>
-                <div class="form-actions">
-                    <button id="saveFlashcardBtn" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Save
-                    </button>
-                    <button id="clearFormBtn" class="btn btn-outline">
-                        <i class="fas fa-eraser"></i> Clear
-                    </button>
-                </div>
             </div>
 
             <div class="flashcards-section">
                 <div class="actions-bar">
                     <div class="stats" id="statsDisplay">0 flashcards</div>
+                    <button id="addCardBtn" class="btn btn-primary" style="padding: 0.5rem 1rem;">
+                        <i class="fas fa-plus"></i> Add Card
+                    </button>
                     <button id="studyAllBtn" class="btn btn-primary" style="padding: 0.5rem 1rem;">
                         <i class="fas fa-graduation-cap"></i> Study All
+                    </button>
+                    <button id="deleteAllBtn" class="btn btn-danger" style="padding: 0.5rem 1rem;">
+                        <i class="fas fa-trash"></i> Delete All
                     </button>
                     <div class="import-export">
                         <div class = "tooltip">
@@ -159,4 +139,5 @@
 
     <script src="./flashcardscript.js"></script>
 </body>
+
 </html>
