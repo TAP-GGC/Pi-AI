@@ -35,6 +35,21 @@ body {
     font-weight: bold;
 }
 
+/* Nav links */
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+.nav-link:hover {
+    background: rgba(255,255,255,0.3);
+}
+
 /* Window Buttons */
 .window-buttons {
     display: flex;

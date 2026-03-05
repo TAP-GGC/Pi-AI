@@ -16,14 +16,9 @@
     <div class="title-bar">
         <span>Pi&AI</span>
         <div style="display:flex; align-items:center; gap:10px;">
-            <a href="firstPage.html" style="color:white; text-decoration:none; font-size:14px; padding-left: 5px;">Home</a>
-            <a href="chatInterface.html" style="color:white; text-decoration:none; font-size:14px; padding-left: 5px;">Chat</a>
-            <a href="flashcardmaker.html" style="color:white; text-decoration:none; font-size:14px; padding-left: 5px;">Flashcards</a>
-            <div class="window-buttons">
-                <div class="bar-btn">—</div>
-                <div class="bar-btn">☐</div>
-                <div class="bar-btn">✕</div>
-            </div>
+            <a href="firstPage.html" class="nav-link">Home</a>
+            <a href="chatInterface.html" class="nav-link">Chat</a>
+            <a href="secondPage.html" class="nav-link">Study Tools</a>
         </div>
     </div>
 
@@ -86,6 +81,9 @@
             <div class="flashcards-section">
                 <div class="actions-bar">
                     <div class="stats" id="statsDisplay">0 flashcards</div>
+                    <button id="studyAllBtn" class="btn btn-primary" style="padding: 0.5rem 1rem;">
+                        <i class="fas fa-graduation-cap"></i> Study All
+                    </button>
                     <div class="import-export">
                         <div class = "tooltip">
                         <button id="importBtn" class="btn btn-outline" style="padding: 0.5rem;">
