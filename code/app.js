@@ -25,12 +25,20 @@ const startTimer = () => {
     if (interval) return;
     if (timeLeft <= 0) return;
 
+    // forces saving the custom value typed in the timer
+    // line changed to fix timer problem
+    timer.blur();
+
+    // prevent starting if time is 0
+    if (timeLeft <= 0) return; // timer problem fix
+
     interval = setInterval(() => {
         timeLeft--;
         updateTimer();
 
         if (timeLeft === 0) {
             clearInterval(interval);
+            interval = null; // line changed for timer problem
 
             // Show clock image and add shake animation
             clockRingImage.style.visibility = "visible";
