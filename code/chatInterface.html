@@ -584,7 +584,7 @@
             const sendButton = document.getElementById('sendButton');
             const particlesContainer = document.getElementById('particles');
 
-            const API_URL = 'http://127.0.0.1:5000/api/chat';
+            const API_URL = '/api/chat';
             let chatHistory = [];
             let displayHistory = [];
             let isSending = false;
@@ -628,7 +628,7 @@
 
             async function fetchWelcomeQuestions() {
                 try {
-                    const res = await fetch('http://127.0.0.1:5000/api/welcome-questions');
+                    const res = await fetch('/api/welcome-questions');
                     if (!res.ok) return null;
                     const data = await res.json();
                     return data.questions || null;

@@ -21,7 +21,11 @@ def index():
 
 @app.route('/<path:filename>')
 def serve_frontend(filename):
-    return send_from_directory(app.static_folder, filename)
+    response = send_from_directory(app.static_folder, filename)
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 MODEL = "gemini-2.5-flash"

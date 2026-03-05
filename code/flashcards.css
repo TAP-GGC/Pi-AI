@@ -40,6 +40,21 @@ body {
     overflow: auto;
 }
 
+/* Nav links */
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+.nav-link:hover {
+    background: rgba(255,255,255,0.3);
+}
+
 /* Title Bar Timer */
 .title-bar {
     background: linear-gradient(to right, rgb(122, 0, 128), rgb(234, 0, 255));
@@ -150,8 +165,6 @@ header {
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     height: fit-content;
-    position: sticky;
-    top: 2rem;
 }
 
 .form-group {
@@ -333,6 +346,7 @@ textarea.form-control {
     opacity: 0;
     pointer-events: none;
     transition: var(--transition);
+    perspective: 1000px;
 }
 
 .study-mode.active {
@@ -341,18 +355,14 @@ textarea.form-control {
 }
 
 .study-card {
-    background-color: white;
+    background-color: transparent;
     border-radius: var(--border-radius);
     width: 90%;
     max-width: 600px;
     min-height: 400px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     position: relative;
     transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
     transition: transform 0.6s;
 }
 
@@ -362,9 +372,20 @@ textarea.form-control {
 
 .study-card-front, .study-card-back {
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     padding: 2rem;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: var(--border-radius);
 }
 
 .study-card-back {
@@ -399,6 +420,7 @@ textarea.form-control {
     font-size: 1.5rem;
     color: #777;
     cursor: pointer;
+    z-index: 10;
 }
 
 .close-study:hover {
@@ -411,6 +433,7 @@ textarea.form-control {
     left: 1rem;
     font-size: 0.9rem;
     color: #777;
+    z-index: 10;
 }
 
 .search-bar {

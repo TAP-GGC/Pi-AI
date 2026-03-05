@@ -134,7 +134,7 @@ function placeCaretAtEnd(el) {
 
 
 // ---------------- STUDY PLAN CODE ----------------
-const API_URL = 'http://127.0.0.1:5000/api/chat';
+const API_URL = '/api/chat';
 const PLAN_STORAGE_KEY = 'piAI_studyPlan';
 let studyTopics = [];
 
