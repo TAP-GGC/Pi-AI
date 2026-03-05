@@ -214,19 +214,6 @@ document.getElementById('topic-list').addEventListener('click', function(e) {
     openQuizModal(i);
 });
 
-// Manual add topic
-document.getElementById('add-topic-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const input = document.getElementById('topic-input');
-    const text = input.value.trim();
-    if (text) {
-        studyTopics.push({ text, done: false });
-        savePlan();
-        renderTopics();
-        input.value = '';
-    }
-});
-
 // Load saved plan on page load
 const savedPlan = localStorage.getItem(PLAN_STORAGE_KEY);
 if (savedPlan) {
