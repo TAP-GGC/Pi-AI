@@ -42,18 +42,70 @@
         </div>
     </div>
 
-    <!-- Task List -->
-     <div class = "containerTask">
-    <h2>My Daily Tasks</h2> 
-            <div><form id="task-form">
-                <input class="inputTasks" type="text" id="task-input" placeholder = "Enter a task...
-                "/>
-                <button class="addingTasks" type = "submit">Add Task to List</button>     
-            </form> </div>
-            <ul id="task-list">
-               
-            </ul>
+    <!-- Study Plan -->
+    <div class="containerTask">
+        <h2>My Study Plan</h2>
+        <p class="plan-hint">Chat with Pi to generate one! Try: <em>"make me a study plan for Python"</em> &nbsp;<a href="chatInterface.html">→ Open Chat</a></p>
+
+        <div id="study-plan-area" style="display:none;">
+            <div id="progress-container">
+                <span id="progress-label">0 / 0 topics complete</span>
+                <div id="progress-bar-bg">
+                    <div id="progress-bar-fill"></div>
+                </div>
+            </div>
+
+            <form id="add-topic-form">
+                <input class="inputTasks" type="text" id="topic-input" placeholder="Add your own topic..." />
+                <button class="addingTasks" type="submit">+ Add Topic</button>
+            </form>
+
+            <ul id="topic-list"></ul>
+
+            <div id="plan-complete-msg" style="display:none;">
+                🎉 You completed your whole study plan! Great work!
+            </div>
         </div>
+    </div>
+
+    <!-- Quiz Modal -->
+    <div id="quiz-overlay" style="display:none;">
+        <div id="quiz-modal">
+            <button id="quiz-close-btn" title="Close">✕</button>
+            <div id="quiz-header">
+                <div id="quiz-pi-icon">Pi</div>
+                <div>
+                    <div id="quiz-title">Let's Learn</div>
+                    <div id="quiz-topic-label"></div>
+                </div>
+            </div>
+            <div id="quiz-body">
+                <div id="quiz-loading">
+                    <span class="quiz-dot"></span><span class="quiz-dot"></span><span class="quiz-dot"></span>
+                    Pi is preparing your lesson...
+                </div>
+
+                <div id="quiz-explanation" style="display:none;"></div>
+
+                <div id="quiz-q1-wrap" style="display:none;">
+                    <div class="quiz-q-label">Question 1 of 2</div>
+                    <div id="quiz-q1-text"></div>
+                    <div id="quiz-options-1" class="quiz-options"></div>
+                    <div id="quiz-feedback-1" style="display:none;"></div>
+                </div>
+
+                <div id="quiz-q2-wrap" style="display:none;">
+                    <div class="quiz-q-label">Question 2 of 2</div>
+                    <div id="quiz-q2-text"></div>
+                    <div id="quiz-options-2" class="quiz-options"></div>
+                    <div id="quiz-feedback-2" style="display:none;"></div>
+                </div>
+            </div>
+            <div id="quiz-footer">
+                <button id="quiz-skip-btn">Skip (just mark done)</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Speech Bubble --> 
     <p class="speech-bubble" id="speechBubble">Hello<br>everyone!</p>
