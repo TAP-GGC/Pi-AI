@@ -352,3 +352,20 @@ setTimeout(() => {
         `;
     }
 }, 3000);
+// ---------------- LOOPING GIFS ----------------
+const imgElement = document.getElementById("pi");    
+const images = ["images/morepi2.gif", "images/typing-pie-pixilart.gif"];
+    
+    
+    let currentIndex = 0;
+
+    function changeImage() {
+
+    imgElement.src = images[currentIndex];
+    currentIndex = (currentIndex + 1) % images.length;
+    }
+
+    window.onload = function() { 
+       
+        setInterval(changeImage, 3000); 
+    };
