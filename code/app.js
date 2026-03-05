@@ -164,7 +164,7 @@ taskForm.addEventListener("submit", function(event){
 setTimeout(() => {
     if (speechBubble) {
         speechBubble.innerHTML = `
-        <img src="images/whitebackgroundshuffle-pixilart.gif" class="brain" alt="Assist"><br>
+        <img src="images/whitebackgroundshuffle.gif" class="brain" alt="Assist"><br>
       Do you need assistance?<br><br>
       <button class="bubble-button" onclick="window.location.href='chatInterface.html'">
         Yes, please →
