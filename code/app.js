@@ -3,6 +3,7 @@ const start = document.getElementById("start");
 const stop = document.getElementById("stop");
 const reset = document.getElementById("reset");
 const timer = document.getElementById("timer");
+
 const clockRingImage = document.getElementById("clock-ring"); 
 const speechBubble = document.getElementById("speechBubble");
 
@@ -27,10 +28,10 @@ const startTimer = () => {
 
     // forces saving the custom value typed in the timer
     // line changed to fix timer problem
-    timer.blur();
+    //timer.blur();
 
     // prevent starting if time is 0
-    if (timeLeft <= 0) return; // timer problem fix
+    //if (timeLeft <= 0) return; // timer problem fix
 
     interval = setInterval(() => {
         timeLeft--;
@@ -38,7 +39,7 @@ const startTimer = () => {
 
         if (timeLeft === 0) {
             clearInterval(interval);
-            interval = null; // line changed for timer problem
+            //interval = null; // line changed for timer problem
 
             // Show clock image and add shake animation
             clockRingImage.style.visibility = "visible";
@@ -127,10 +128,10 @@ timer.addEventListener("blur", () => {
         customTime = (minutes * 60) + seconds;
         timeLeft = customTime;
         updateTimer();
-        localStorage.setItem('timerCustomTime', customTime);
-        localStorage.setItem('timerTimeLeft', timeLeft);
+
+    // lines removed to fix timer problem    
     } else {
-        updateTimer(); // reset if invalid
+      updateTimer(); // reset if invalid
     }
 });
 
