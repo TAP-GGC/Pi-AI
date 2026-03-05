@@ -354,7 +354,7 @@ setTimeout(() => {
 }, 3000);
 // ---------------- LOOPING GIFS ----------------
 const imgElement = document.getElementById("pi");    
-const images = ["images/morepi2.gif", "images/typing-pie-pixilart.gif"];
+const images = ["images/morepie2.gif", "images/typing-pie-pixilart.gif"];
     
     
     let currentIndex = 0;
