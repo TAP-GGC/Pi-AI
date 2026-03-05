@@ -27,42 +27,35 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 MODEL = "gemini-2.5-flash"
 
 SYSTEM_PROMPT = (
-    "You are Pi, a warm, patient, and encouraging tech helper who loves making technology easy and fun to learn. "
-    "You talk to people of all ages and backgrounds — from young kids to adults who are brand new to technology. "
-    "Your job is to make everyone feel welcome, capable, and excited about learning.\n\n"
-    "Topics you can help with: programming, computers, the internet, apps, games, cybersecurity, "
-    "websites, databases, algorithms, and anything else tech-related.\n\n"
+    "You are Pi, a warm and encouraging tech helper for kids and beginners. "
+    "Your job is to make technology feel easy, fun, and stress-free.\n\n"
     "How you communicate:\n"
-    "- Always use simple, everyday language. Avoid jargon — if you must use a technical word, explain it right away "
-    "in plain terms (e.g., 'A variable is like a labeled box that holds information').\n"
-    "- Use relatable real-world analogies and comparisons to explain tricky concepts.\n"
-    "- Keep your tone warm, fun, and encouraging — like a patient friend who loves helping.\n"
-    "- Never make anyone feel bad for not knowing something. Normalize not knowing — it's how we all learn!\n"
-    "- Match your vocabulary and complexity to how the person is talking. "
-    "If they sound young or are using simple words, keep it extra simple and friendly. "
-    "If they seem more advanced, you can be more detailed.\n\n"
+    "- Keep responses SHORT. 2 to 4 sentences max. If more is needed, break it into a follow-up.\n"
+    "- Use simple, everyday words. If you must use a tech term, explain it in one short phrase right away.\n"
+    "- Use fun real-world comparisons to explain things (e.g., 'A variable is like a labeled box').\n"
+    "- Sound like a friendly, patient older sibling — warm, casual, and never overwhelming.\n"
+    "- Never make anyone feel bad for not knowing something.\n\n"
     "Rules you must follow:\n"
-    "1. NEVER give direct answers to technical problems or coding challenges.\n"
-    "2. Instead, give hints, explain the relevant concept or method, and ask guiding questions "
-    "that lead the student toward the solution on their own.\n"
-    "3. When helpful, suggest free beginner-friendly resources like freeCodeCamp, CS50, Khan Academy, "
-    "Scratch, or Code.org for younger learners — or MDN Web Docs, GeeksforGeeks, and The Odin Project for older ones.\n"
-    "4. Always break things into small, easy steps. Never overwhelm with too much at once.\n"
-    "5. Celebrate every question and every effort — no question is too small or too silly.\n"
-    "6. When a user asks about or discusses a topic, end your response with a short, friendly suggestion "
-    "to generate flashcards on it. For example: 'Want me to make some flashcards on [topic] so you can practice later?' "
-    "Keep the suggestion light and natural.\n"
-    "7. NEVER use markdown formatting in your responses. Do not use ** for bold, * for italic, # for headers, "
-    "or any other markdown symbols. Write in plain, natural sentences only."
+    "1. NEVER give direct answers to coding problems. Give a small hint or ask one guiding question instead.\n"
+    "2. Always give one small step at a time. Never dump a lot of information at once.\n"
+    "3. Celebrate effort — every question is a great question.\n"
+    "4. At the end of your response, suggest one of these two things — pick whichever fits best:\n"
+    "   - Suggest FLASHCARDS when you just explained a specific concept the user can practice. "
+    "Example: 'Want me to make flashcards on this so you can review later?'\n"
+    "   - Suggest a STUDY PLAN when the user wants to learn a whole topic or get better at something. "
+    "Example: 'Want me to build you a study plan so you can learn [topic] step by step?'\n"
+    "   Only suggest one thing per response. Keep it one short, casual sentence.\n"
+    "5. NEVER use markdown formatting. No **, *, or # symbols. Plain sentences only."
 )
 
 
-def _extract_flashcard_intent(message, history=None):
-    """Use Gemini to classify if the message is requesting flashcard generation.
-    Returns (topic, count) if it is, else None."""
+def _extract_intent(message, history=None):
+    """Single Gemini call to classify user intent.
+    Returns dict with 'type' of 'flashcard', 'study_plan', or 'chat',
+    plus 'topic' and 'count' where relevant."""
     context = ""
     if history:
-        recent = history[-6:]  # last 3 exchanges
+        recent = history[-6:]
         context = "Recent conversation:\n"
         for entry in recent:
             role = "User" if entry["role"] == "user" else "Assistant"
@@ -70,13 +63,16 @@ def _extract_flashcard_intent(message, history=None):
         context += "\n"
 
     prompt = (
-        "Determine if the following user message is requesting flashcard generation. "
-        "Use the conversation context to resolve any vague references like 'it', 'that topic', 'this', etc.\n"
+        "Classify the intent of the following user message into exactly one of three types: "
+        "\"flashcard\" (user wants flashcards generated), "
+        "\"study_plan\" (user wants a study plan generated), or "
+        "\"chat\" (everything else).\n"
+        "Use the conversation context to resolve vague references like 'it', 'that topic', 'this', etc.\n"
         "Return ONLY valid JSON with no extra text, markdown, or code fences.\n"
         "Fields:\n"
-        "  \"is_request\": true if the user wants flashcards generated, false otherwise\n"
-        "  \"topic\": the fully resolved subject for the flashcards as a string, or null if not a request\n"
-        "  \"count\": number of flashcards requested as an integer (default 5, max 15), or null\n\n"
+        "  \"type\": one of \"flashcard\", \"study_plan\", or \"chat\"\n"
+        "  \"topic\": the fully resolved subject as a string, or null if type is \"chat\"\n"
+        "  \"count\": number of flashcards as an integer (default 5, max 15, only for flashcard type), or null\n\n"
         f"{context}Message: \"{message}\""
     )
     try:
@@ -84,17 +80,18 @@ def _extract_flashcard_intent(message, history=None):
         text = response.text.strip()
         json_match = re.search(r'\{[\s\S]*\}', text)
         if not json_match:
-            return None
+            return {"type": "chat"}
         data = json.loads(json_match.group(0))
-        if not data.get("is_request"):
-            return None
+        intent_type = data.get("type", "chat")
+        if intent_type not in ("flashcard", "study_plan", "chat"):
+            intent_type = "chat"
         topic = data.get("topic")
         count = int(data.get("count") or 5)
         count = min(max(count, 1), 15)
-        return (topic, count) if topic and len(str(topic)) > 1 else None
+        return {"type": intent_type, "topic": topic, "count": count}
     except Exception as e:
-        print(f"[flashcard intent classification error] {e}")
-        return None
+        print(f"[intent classification error] {e}")
+        return {"type": "chat"}
 
 
 def _build_flashcards(topic, count):
@@ -124,6 +121,25 @@ def _build_flashcards(topic, count):
     for card in cards:
         card['tags'] = [tag]
     return cards
+
+
+def _build_study_plan(topic):
+    """Call Gemini and return a list of study plan topic strings."""
+    prompt = (
+        f"Generate a study plan for learning \"{topic}\".\n"
+        "Return ONLY a valid JSON array of 6 to 8 short topic strings with no extra text, markdown, or code fences.\n"
+        "Each string should be a specific topic or skill to learn (under 8 words each).\n"
+        "Example: [\"Introduction to Python\", \"Variables and Data Types\", \"Loops and Conditionals\"]"
+    )
+    response = client.models.generate_content(model=MODEL, contents=prompt)
+    text = response.text.strip()
+    json_match = re.search(r'\[[\s\S]*\]', text)
+    if not json_match:
+        raise ValueError(f"No JSON array found in Gemini response: {text[:200]}")
+    topics = json.loads(json_match.group(0))
+    if not isinstance(topics, list):
+        return []
+    return [str(t).strip() for t in topics if t]
 
 
 @app.route("/api/welcome-questions", methods=["GET"])
@@ -189,22 +205,32 @@ def chat():
         role = "user" if entry["role"] == "user" else "model"
         contents.append(types.Content(role=role, parts=[types.Part(text=entry["content"])]))
 
-    contents.append(types.Content(role="user", parts=[types.Part(text=user_message)]))
+    # Single intent classification call
+    intent = _extract_intent(user_message, history)
 
-    # Detect flashcard generation intent
-    intent = _extract_flashcard_intent(user_message, history)
-    if intent:
-        topic, count = intent
+    if intent["type"] == "flashcard" and intent.get("topic"):
         try:
-            cards = _build_flashcards(topic, count)
+            cards = _build_flashcards(intent["topic"], intent["count"])
             reply = (
-                f"Done! I've generated {len(cards)} flashcards on \"{topic}\" "
+                f"Done! I've generated {len(cards)} flashcards on \"{intent['topic']}\" "
                 "and added them to your collection."
             )
             return jsonify({"response": reply, "flashcards": cards})
         except Exception as e:
             print(f"[flashcard generation error] {e}")
-            # Fall through to regular chat response
+
+    elif intent["type"] == "study_plan" and intent.get("topic"):
+        try:
+            topics = _build_study_plan(intent["topic"])
+            reply = (
+                f"Done! I've created a study plan for \"{intent['topic']}\" "
+                f"with {len(topics)} topics. Head over to your Study Tools page to start!"
+            )
+            return jsonify({"response": reply, "study_plan": topics})
+        except Exception as e:
+            print(f"[study plan generation error] {e}")
+
+    contents.append(types.Content(role="user", parts=[types.Part(text=user_message)]))
 
     response = client.models.generate_content(model=MODEL, contents=contents)
     text = re.sub(r'\*\*(.+?)\*\*', r'\1', response.text, flags=re.DOTALL)
