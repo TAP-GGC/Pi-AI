@@ -8,7 +8,7 @@ const speechBubble = document.getElementById("speechBubble");
 
 
 // ---------------- TIMER LOGIC ----------------
-let customTime = 0; // default 25:00
+let customTime = 0;
 let timeLeft = customTime;
 let interval;
 
