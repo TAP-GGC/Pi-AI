@@ -70,11 +70,14 @@ A more thorough description of your project. Not a full walkthrough, but describ
 ## :open_hands: Outreach
 <i>List the outreach events your team has participated in. </i>
 
-Example:
+<!--Example:-->
 
-<!-- 1. <b>TAP Expo</b>, April 1, 2021, Georgia Gwinnett College: to promote the IT field and encourage college students to sign up for TAP.
-2. <b>Class Workshops</b>, April 13-15, 2021, Georgia Gwinnett College: to promote the IT field to non-IT students.
--->
+1. <b>TAP Expo</b>, March 5, 2026, Georgia Gwinnett College: to promote the IT field and encourage college students to sign up for TAP.
+2. <b> ASF </b>, March 7, Georgia Gwinnett College:
+3. <b> ASF </b>, March 21, Atlanta:
+4. <b> Super Saturday </b>, April 4, Georgia Gwinnett College:
+   <!--<b>Class Workshops</b>, April 13-15, 2021, Georgia Gwinnett College: to promote the IT field to non-IT students.-->
+
 ## :mag_right: Similar Projects
 If you're interested projects that utilize AI, check out AIDiva(https://github.com/TAP-GGC/AiDiva)!
 
