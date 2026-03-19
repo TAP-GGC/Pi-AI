@@ -86,7 +86,7 @@ If you're interested projects that utilize AI, check out AIDiva(https://github.c
 <!-- be sure to use the alt text feature in case anybody viewing your repo is using  screen reader! you want your workshop to be as accessible as possible 
 Python, Scikit-Learn-->
 <p align="center">
-  <img alt="Scratch Logo" src = "media/technology/scratch logo.png" width="200" height="200"/>
+  <img alt="Scratch Logo" src = "media/technology/scratch VSC.webp" width="200" height="200"/>
 </p>
 
 * [Python]((https://www.python.org/)) is a high level programming language designed to be easily readable and debuggable, and is one of the most widely used programming languages to build website, software, automate tasks, and analyse data.
