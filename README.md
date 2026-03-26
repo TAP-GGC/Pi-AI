@@ -114,6 +114,7 @@ Your repo doesn't have to have every section used below. This is just an example
 
 ## Workshop Instructions 
 [Click here to view workshop walkthrough pdf file](https://github.com/TAP-GGC/Pi-AI/blob/32f90cef69b056ae66814036edaa104aae08e0de/documents/workshop%20materials/TAP%20Workshop.pdf)
+
 [Click here for the Google Collab file](https://github.com/TAP-GGC/Pi-AI/blob/10d8ab215d87ceb365741cf56a18bda1577e33db/documents/workshop%20materials/Build_Your_Own_AI_agent_Workshop(1).ipynb)
 
 [Our Game Workshop Video](https://youtu.be/Mtsre0iMStM)
