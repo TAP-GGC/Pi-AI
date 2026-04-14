@@ -97,7 +97,7 @@ Python, Scikit-Learn-->
 <p align="center">
 <img src = "media/technology/VSC.png" width ="150" height="150">
   <img src = "media/technology/gemini.png" width ="300" height="150">
-   <img src = "media/technology/python.png" width ="250" height="150">
+   <img src = "media/technology/python.png" width ="250" height="152">
 </p>
 
 ## Project Setup/Installation 
