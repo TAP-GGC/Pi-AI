@@ -95,7 +95,7 @@ Python, Scikit-Learn-->
 * HTML, CSS, JavaScript
 
 <p align="center">
-<img src = "media/technology/VSC.png" width ="100" height="95">
+<img src = "media/technology/VSC.png" width ="150" height="100">
   <img src = "media/technology/gemini.png" width ="300" height="150">
    <img src = "media/technology/python.png" width ="250" height="100">
 </p>
