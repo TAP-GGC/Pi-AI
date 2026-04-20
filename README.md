@@ -12,7 +12,7 @@
 The objective of the workshop is to introduce the concept prompt engineering to students and show them how we used it to make learning technology more interactive and fun.
 <!-- You can look at other TAP projects if you need a better idea of how to describe your workshops objectives -->
 
-This workshop showcases to students on how prompt engineering is used to interact with LLMS (Large Language Models). In this workshop students will be guided through on how to make their own AI API keys,how to integrate models in their coding projects,and prompt engineer them to their needs.
+This workshop showcases to students on how prompt engineering is used to interact with LLMS (Large Language Models). In this workshop students will be guided through on how to make their own AI API keys, how to integrate models in their coding projects, and prompt engineer them to their needs.
 
 ## :bulb: Project Information
 <!-- 
