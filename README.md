@@ -100,15 +100,131 @@ Python, Scikit-Learn-->
    <img src = "media/technology/python.png" width ="250" height="150">
 </p>
 
-## Project Setup/Installation 
-<i> This section is dedicated to linking to .md files in your documents/tutorial/ folder that will contain instructions on installation
+## Project Setup/Installation
 
-Your repo doesn't have to have every section used below. This is just an example so you can get an idea of what your own repo should look like</i>
+Follow the steps below to get Pi&AI running on your computer. No coding experience needed!
 
-### Interact with website link 
-[Click here to view instructions](/documents/tutorial%20materials/Opening%20a%20blank%20Scratch%20page.md)
+---
 
-[Video with Scratch instructions](https://youtu.be/v-GUbj7DMEE)
+### Step 1 — Get a Gemini API Key
+
+Pi&AI is powered by Google's Gemini AI. You will need a free API key to use it.
+
+1. Go to [Google AI Studio](https://aistudio.google.com/apikey)
+2. Sign in with a Google account
+3. Click **"Create API key"** and copy the key somewhere safe
+
+---
+
+### Step 2 — Download the Project
+
+1. At the top of this GitHub page, click the green **"Code"** button
+2. Select **"Download ZIP"**
+3. Once downloaded, **extract/unzip** the folder to your Desktop or anywhere you like
+
+---
+
+### Step 3 — Install Visual Studio Code (VS Code)
+
+VS Code is a free code editor that makes it easy to view and edit project files.
+
+1. Go to [code.visualstudio.com](https://code.visualstudio.com/)
+2. Click the **Download** button for your operating system (Windows, Mac, or Linux)
+3. Run the installer and follow the on-screen instructions
+4. Once installed, open VS Code
+5. Then open the extracted folder into the editor
+
+**Recommended Extension:**
+- Open VS Code, click the **Extensions** icon on the left sidebar (or press `Ctrl+Shift+X`)
+- Search for **"Python"** and install the extension by Microsoft — this gives you syntax highlighting and makes working with the project much easier
+
+---
+
+### Step 4 — Install Python
+
+If you do not already have Python installed:
+
+1. Go to [python.org/downloads](https://www.python.org/downloads/)
+2. Download and install **Python 3.8 or higher**
+3. During install, check the box that says **"Add Python to PATH"**
+
+To verify it installed correctly, open the terminal in VS Code (**Terminal → New Terminal** or press `Ctrl+` `` ` ``) and run:
+```
+python --version
+```
+
+---
+
+### Step 5 — Create a Virtual Environment
+
+A virtual environment keeps the project's packages separate from the rest of your computer. This is required before installing dependencies.
+
+1. In VS Code, open the terminal (**Terminal → New Terminal** or press `Ctrl+` `` ` ``)
+2. The terminal should already be in your project folder. If not, use **File → Open Folder** to open the extracted project folder first
+3. Create the virtual environment:
+   ```
+   python -m venv .venv
+   ```
+4. Activate it:
+
+   - **Windows:**
+     ```
+     .venv\Scripts\activate
+     ```
+   - **Mac/Linux:**
+     ```
+     source .venv/bin/activate
+     ```
+
+   You will know it is active when you see **`(.venv)`** at the start of your terminal line.
+
+---
+
+### Step 6 — Install Dependencies
+
+With your virtual environment active, run this in the VS Code terminal:
+   ```
+   pip install -r backend/requirements.txt
+   ```
+
+---
+
+### Step 7 — Add Your API Key
+
+1. In VS Code's file explorer (left sidebar), open the **`backend`** folder
+2. Right-click inside the `backend` folder and select **"New File"**, name it **`.env`**
+3. Add this line to the file:
+   ```
+   GEMINI_API_KEY=paste_your_api_key_here
+   ```
+4. Replace `paste_your_api_key_here` with the key you copied in Step 1, then save the file
+
+---
+
+### Step 8 — Run the App
+
+1. In the VS Code terminal, run:
+   ```
+   python backend/app.py
+   ```
+2. You should see output that includes a line like:
+   ```
+   Running on http://127.0.0.1:5000
+   ```
+3. Open your browser and go to **http://127.0.0.1:5000**
+
+Pi&AI should now be running! Start chatting with Pi to explore tech topics, generate flashcards, and build study plans.
+
+---
+
+### Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| `python` not found | Try `python3` instead of `python` |
+| `pip` not found | Try `pip3` instead of `pip` |
+| API key error | Double-check your `.env` file has no extra spaces around the `=` sign |
+| Port already in use | Close other terminals and try again |
 
 ## Short Demo Instructions 
 [Demo Video on how to install and play our game](https://youtu.be/mA80Aa55t-U)
