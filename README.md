@@ -4,15 +4,15 @@
 <p align="center">
   <img alt="Template Logo" src="media/logos/Pi-Transparent.png" width="" height="250" />
   <h1 align="center">Pi&AI</h1>
-  <p align="center">A project for students to enrich their study experience in mathematics by team Pi Sharp </p>
+  <p align="center">A project for students to enrich their understanding in technology by  team Pi Sharp </p>
 </p>
 <!-- the emojis are not set in stone! If you'd like you can remove them entirely or select your own from https://gist.github.com/rxaviers/7360908 you are welcome to -->
 
 ## :loudspeaker: About
-The objective of the workshop is to get students motivated to create their own generative ai models by demonstrating how we created a SLM study assistant and interactable interface.
+The objective of the workshop is to introduce the concept prompt engineering to students and show them how we used it to make learning technology more interactive and fun.
 <!-- You can look at other TAP projects if you need a better idea of how to describe your workshops objectives -->
 
-This workshop has participants learn about data training works with small language models and give a demonstration on how they can create their own step by step.
+This workshop showcases to students on how prompt engineering is used to interact with LLMS (Large Language Models). In this workshop students will be guided through on how to make their own AI API keys and prompt engineer them to their needs.
 
 ## :bulb: Project Information
 <!-- 
@@ -61,8 +61,8 @@ You can select from a range of audiences or a single auidience. Examples:
 
 
 ## :page_with_curl: Project Description
-A more thorough description of your project. Not a full walkthrough, but describe the different sections of your project and the gist of what participants will be doing when interacting with it and what they'll learn.
-
+PI - AI is an study assistant Web-Based chatbot powered by the AI model Gemini. This application was specifically designed to provide users with a more interactive and engaging way to learn technological subjects through AI-generated study plans and flashcards. In addition, we used a technique called prompt engineering to ensure that Gemini explains these concepts in the most easy and friendly way possible to ensure the user understands the concept they are trying to learn. When the user opens the application, they are greeted with a welcome prompt from PI-AI , and then asked to give PI-AI a question about any technological subject. After the user gives PI-AI a question, the user will then be given a brief description on that particular subject, followed by the option to either generate a study plan or flashcards for them. If the user chooses the study plan option,  PI-AI will generate 8 tasks for them to complete. Each task will consist of a passage and two questions about that passage that the user answers. We as a team wanted to introduce prompt engineering to students to broaden their understanding of AI, so they could leverage it to their specific needs.
+ 
 ## :memo: Publications
 <!-- team members, then professors/advisors. "Name of Publication", event, month and day, year, Georgia Gwinnett College. -->
 1. Keyvaun Hering, Lorena Salazar, Kyla Thorpe, Wei Jin, Xin Xu. "A Real Fake Workshop", Fake Event, April 1, 2024, Georgia Gwinnett College.  
@@ -90,8 +90,8 @@ Python, Scikit-Learn-->
 </p>
 
 * [Python]((https://www.python.org/)) is a high level programming language designed to be easily readable and debuggable, and is one of the most widely used programming languages to build website, software, automate tasks, and analyse data.
-* Python was used to train our AI model and similarly acts in the workshop to demonstrate how students can train data to create their own.
-* [Scikit-Learn]((https://scikit-learn.org/stable/)) is an opensource Python library that supports both supervised and unsupervised learning.
+* Python was used to system prompt our AI model and similarly acts in the workshop to demonstrate how students can train data to create their own.
+* [Gemini]((https://gemini.google.com/app)) is a Large Language Model developed by Google 
 * HTML, CSS, JavaScript
 
 <p align="center">
