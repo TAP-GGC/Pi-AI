@@ -45,7 +45,7 @@ You can select from a range of audiences or a single auidience. Examples:
 ## :pencil2: Team: Pi&AI
 
 <!-- Use the team photo of your choice once youve uploaded it to the team photo folder within the media folder -->
-<img alt="PI&AI Team" src = "media/team photos/IMG_8691.jpeg" width="" height="400">
+<img alt="PI&AI Team" src = "media/team photos/Screenshot_20260420_213148_Photos.jpg" width="" height="400">
 
 > (From left to right: Kyla, Keyvaun, Lorena.)
 <!-- replace with full names of your team members -->
