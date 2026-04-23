@@ -31,7 +31,7 @@ You can select from a range of audiences or a single auidience. Examples:
 -->
 * <b>Difficulty Level:</b> Beginner/Intermediate 
 * <b>Target Audience:</b> Middle School - College
-* <b>Duration of Workshop:</b> 20 - 25 min 
+* <b>Duration of Workshop:</b> 30 - 35 min 
 * <b>Needed Materials:</b> Keyboard, mouse, computer
 * <b>Learning Outcomes:</b> The primary goal of this project is to teach participants how genertive chat bots are created and how to train data.
 * <b>Your Main Technology</b> Name of Technology and then a brief descriptor. You will go more in depth on the technology used in a different section. 
@@ -68,14 +68,11 @@ PI - AI is an study assistant Web-Based chatbot powered by the AI model Gemini. 
 1. Keyvaun Hering, Lorena Salazar, Kyla Thorpe, Wei Jin, Xin Xu. "A Real Fake Workshop", Fake Event, April 1, 2024, Georgia Gwinnett College.  
 
 ## :open_hands: Outreach
-<i>List the outreach events your team has participated in. </i>
 
-<!--Example:-->
-
-1. <b>TAP Expo</b>, March 5, 2026, Georgia Gwinnett College: to promote the IT field and encourage college students to sign up for TAP.
-2. <b> ASF </b>, March 7, Georgia Gwinnett College:
-3. <b> ASF </b>, March 21, Atlanta:
-4. <b> Super Saturday </b>, April 4, Georgia Gwinnett College:
+1. <b>TAP Expo</b> March 5, 2026, Georgia Gwinnett College: to promote the IT field and encourage college students to sign up for TAP.
+2. <b> Atlanta Science Festival (ASF) </b> March 7, 2026 Georgia Gwinnett College: A local event displaying STEM topics to allow young children in the community to learn about the sciences.
+3. <b> ASF @ Atlanta </b> March 21, 2026 Atlanta: On a much larger scale than the GGC event, ASF features universities and brands from around Atlanta to encourage the community to get involved with local clubs, find interest in their future school, and learn about different facets of science such as Information Technology.
+4. <b> Super Saturday </b> April 4, 2026 - Georgia Gwinnett College: An engaging day of demonstrating STEM projects and hands on learning to middle school students. 
    <!--<b>Class Workshops</b>, April 13-15, 2021, Georgia Gwinnett College: to promote the IT field to non-IT students.-->
 
 ## :mag_right: Similar Projects
@@ -86,7 +83,7 @@ If you're interested projects that utilize AI, check out AIDiva(https://github.c
 <!-- be sure to use the alt text feature in case anybody viewing your repo is using  screen reader! you want your workshop to be as accessible as possible 
 Python, Scikit-Learn-->
 <p align="center">
-  <img alt="Scratch Logo" src = "media/technology/scratch VSC.webp" width="200" height="200"/>
+ <!-- <img alt="Scratch Logo" src = "media/technology/scratch VSC.webp" width="200" height="200"/> -->
 </p>
 
 * [Python]((https://www.python.org/)) is a high level programming language designed to be easily readable and debuggable, and is one of the most widely used programming languages to build website, software, automate tasks, and analyse data.
