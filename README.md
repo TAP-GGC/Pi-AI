@@ -30,11 +30,11 @@ You can select from a range of audiences or a single auidience. Examples:
   You will be presenting most often to your peers who are taking introductory technology classes, so more often than not you should be including college in your target audience range. 
 -->
 * <b>Difficulty Level:</b> Beginner/Intermediate 
-* <b>Target Audience:</b> Middle School - College
+* <b>Target Audience:</b> Elementary - College
 * <b>Duration of Workshop:</b> 30 - 35 min 
 * <b>Needed Materials:</b> Keyboard, mouse, computer
 * <b>Learning Outcomes:</b> The primary goal of this project is to teach participants how genertive chat bots are created and how to train data.
-* <b>Your Main Technology</b> Name of Technology and then a brief descriptor. You will go more in depth on the technology used in a different section. 
+* <b>Your Main Technology</b> Frontend (HTML, CSS, JavaScript) and Backend (Python and Google Gemini) 
 * [Technology Ambassador Program](https://tapggc.org/) <b>(TAP)</b> is a project-based class that provides a collaborative environment for students to work with their fellow classmates on a semester-long project using technologies of their choice. TAP strives to increase participation in IT through numerous outreach activities and workshops that are designed to showcase the creative and fun side of technology.
 <!-- Commercial Video stored in the Media folder will be linked here -->
 
@@ -63,7 +63,6 @@ You can select from a range of audiences or a single auidience. Examples:
 ## :page_with_curl: Project Description
 PI - AI is an study assistant Web-Based chatbot powered by the AI model Gemini. This application was specifically designed to provide users with a more interactive and engaging way to learn technological subjects through AI-generated study plans and flashcards. In addition, we used a technique called prompt engineering to ensure that Gemini explains these concepts in the most easy and friendly way possible to ensure the user understands the concept they are trying to learn. When the user opens the application, they are greeted with a welcome prompt from PI-AI , and then asked to give PI-AI a question about any technological subject. After the user gives PI-AI a question, the user will then be given a brief description on that particular subject, followed by the option to either generate a study plan or flashcards for them. If the user chooses the study plan option,  PI-AI will generate 8 tasks for them to complete. Each task will consist of a passage and two questions about that passage that the user answers. We as a team wanted to introduce prompt engineering to students to broaden their understanding of AI, so they could leverage it to their specific needs.
  
-## :memo: Publications
 <!-- team members, then professors/advisors. "Name of Publication", event, month and day, year, Georgia Gwinnett College. -->
 1. Keyvaun Hering, Lorena Salazar, Kyla Thorpe, Wei Jin, Xin Xu. "A Real Fake Workshop", Fake Event, April 1, 2024, Georgia Gwinnett College.  
 
@@ -72,7 +71,9 @@ PI - AI is an study assistant Web-Based chatbot powered by the AI model Gemini. 
 1. <b>TAP Expo</b> March 5, 2026, Georgia Gwinnett College: to promote the IT field and encourage college students to sign up for TAP.
 2. <b> Atlanta Science Festival (ASF) </b> March 7, 2026 Georgia Gwinnett College: A local event displaying STEM topics to allow young children in the community to learn about the sciences.
 3. <b> ASF @ Atlanta </b> March 21, 2026 Atlanta: On a much larger scale than the GGC event, ASF features universities and brands from around Atlanta to encourage the community to get involved with local clubs, find interest in their future school, and learn about different facets of science such as Information Technology.
-4. <b> Super Saturday </b> April 4, 2026 - Georgia Gwinnett College: An engaging day of demonstrating STEM projects and hands on learning to middle school students. 
+4. <b> Super Saturday </b> April 4, 2026 - Georgia Gwinnett College: An engaging day of demonstrating STEM projects and hands on learning to middle school students.
+5. <b>STaRS</b> April 24, 2026 - Georgia Gwinnett College: A showcase of research projects and innovation throughout the student body, where we hosted live demonstrations of our project to the fellow attendees.
+6. <b>CREATE Conference</b> May 1, 2026 - Georgia Gwinnett College: CREATE hosts different styles of presentations and, similarly to STaRS, showcases research throughout the student body. We specifically hosted a short workshop detailing our data findings from pre and post survey data from our outreach workshops throughout the semester.
    <!--<b>Class Workshops</b>, April 13-15, 2021, Georgia Gwinnett College: to promote the IT field to non-IT students.-->
 
 ## :mag_right: Similar Projects
