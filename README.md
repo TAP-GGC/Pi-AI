@@ -235,6 +235,6 @@ Pi&AI should now be running! Start chatting with Pi to explore tech topics, gene
 
 [Click here for the Google Collab file](https://github.com/TAP-GGC/Pi-AI/blob/10d8ab215d87ceb365741cf56a18bda1577e33db/documents/workshop%20materials/Build_Your_Own_AI_agent_Workshop(1).ipynb)
 
-[Our Game Workshop Video](https://youtu.be/Mtsre0iMStM)
+[Our Game Workshop Video (this is a placeholder)](https://youtu.be/Mtsre0iMStM)
 
 
