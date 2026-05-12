@@ -38,7 +38,7 @@ You can select from a range of audiences or a single auidience. Examples:
 * [Technology Ambassador Program](https://tapggc.org/) <b>(TAP)</b> is a project-based class that provides a collaborative environment for students to work with their fellow classmates on a semester-long project using technologies of their choice. TAP strives to increase participation in IT through numerous outreach activities and workshops that are designed to showcase the creative and fun side of technology.
 <!-- Commercial Video stored in the Media folder will be linked here -->
 
-[Commercial Video](https://github.com/TAP-GGC/NinjaTurtles/assets/157164928/94b037a6-8912-44da-8a8c-84c0b8a0afb8)
+[Commercial Video (this is a placeholder)](https://github.com/TAP-GGC/NinjaTurtles/assets/157164928/94b037a6-8912-44da-8a8c-84c0b8a0afb8)
 
 <!-- videos can also be dragged and dropped into markdown files if you want them embedded -->
 
@@ -112,6 +112,8 @@ Pi&AI is powered by Google's Gemini AI. You will need a free API key to use it.
 2. Sign in with a Google account
 3. Click **"Create API key"** and copy the key somewhere safe
 
+<ins>Disclaimer</ins>: Google has recently updated their terms and services related to age verification. This may mean you are unable to access Google AI Studio due to lacking proper verification on your email. Because of the nature of API keys, we cannot share our own with you. We recommend trying different accounts if possible, but this step may make using the website chat impossible.
+
 ---
 
 ### Step 2 — Download the Project
@@ -182,7 +184,7 @@ A virtual environment keeps the project's packages separate from the rest of you
 
 With your virtual environment active, run this in the VS Code terminal:
    ```
-   pip install -r backend/requirements.txt
+   pip install -r Pi-AI-main/backend/requirements.txt
    ```
 
 ---
@@ -203,7 +205,7 @@ With your virtual environment active, run this in the VS Code terminal:
 
 1. In the VS Code terminal, run:
    ```
-   python backend/app.py
+   python Pi-AI-main/backend/app.py
    ```
 2. You should see output that includes a line like:
    ```
@@ -223,9 +225,10 @@ Pi&AI should now be running! Start chatting with Pi to explore tech topics, gene
 | `pip` not found | Try `pip3` instead of `pip` |
 | API key error | Double-check your `.env` file has no extra spaces around the `=` sign |
 | Port already in use | Close other terminals and try again |
+| .env file corrupted | Double check instructions and use VSCode AI if stuck |
 
 ## Short Demo Instructions 
-[Demo Video on how to install and play our game](https://youtu.be/mA80Aa55t-U)
+[Demo Video on how our website functions (this is a placeholder)](https://youtu.be/mA80Aa55t-U)
 
 ## Workshop Instructions 
 [Click here to view workshop walkthrough pdf file](https://github.com/TAP-GGC/Pi-AI/blob/32f90cef69b056ae66814036edaa104aae08e0de/documents/workshop%20materials/TAP%20Workshop.pdf)
